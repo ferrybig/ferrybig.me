@@ -1,2 +1,2 @@
 #!/bin/sh
-php public_html/build.php
+php templates/build.php

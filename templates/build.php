@@ -5,7 +5,7 @@ $curl = curl_init();
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($curl, CURLOPT_HEADER, 1);
 curl_setopt($curl, CURLOPT_FILETIME, true);
-curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); // The worst thing that can happen is fake data
+// curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); // The worst thing that can happen is fake data
 
 define("EXPIRE_HOUR", 60 * 60);
 define("EXPIRE_DAY", 24 * 60 * 60);
@@ -43,17 +43,19 @@ function loadUrlJson($url, $expireTime = EXPIRE_WEEK) {
 	curl_setopt($curl, CURLOPT_HTTPHEADER, array(
 		'If-None-Match: ' . $etag,
 		'User-Agent: Crawler for ferrybig.me',
+		'Accept: application/vnd.github.v3.full+json, application/json'
 	));
 	$response = curl_exec($curl);
 	$header_size = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
 	$header = substr($response, 0, $header_size);
 	$body = substr($response, $header_size);
 	$header_arr = get_headers_from_curl_response($header);
-	if($response == false) {
-		fwrite(STDERR, "curl: (" . curl_errno($curl) . ") " . curl_error($curl));
+	if ($response == false) {
+		fwrite(STDERR, "curl: (" . curl_errno($curl) . ") " . curl_error($curl) . "\n");
 	}
 	$code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-	fwrite(STDERR, "cache: " . $url . ": " . ($code == 304 ? "hit" : "miss"));
+	// TODO: remove debugging statement
+	fwrite(STDERR, "cache: " . $url . ": " . ($code == 304 ? "hit" : "miss") . "\n");
 	if ($code == 304) {
 		$json->expires = time() + $expireTime;
 		file_put_contents("output/cache/$hash.json", json_encode($json));
@@ -65,8 +67,7 @@ function loadUrlJson($url, $expireTime = EXPIRE_WEEK) {
 	}
 	$json = new stdClass();
 	$json->payload = json_decode($body);
-	$json->expires = time() + max($expireTime,
-			isset($header_arr["x-poll-interval"]) ? $header_arr["x-poll-interval"] : 0);
+	$json->expires = time() + max($expireTime, isset($header_arr["x-poll-interval"]) ? $header_arr["x-poll-interval"] : 0);
 	$json->url = $url;
 	$json->etag = $header_arr["etag"];
 	@mkdir("output");
@@ -98,7 +99,7 @@ function has_limited(Array $arr, $count) {
 function format_branch_name($rawname) {
 	// We need the second / here (but more slashes may follow):
 	$split = strrpos($rawname, "/", strrpos($rawname, "/"));
-	return substr($rawname, $split);
+	return substr($rawname, $split + 1);
 }
 
 function get_branch_style($rawname) {
@@ -108,26 +109,92 @@ function get_branch_style($rawname) {
 		return "info";
 	} else if (startsWith($rawname, "refs/heads/hotfix")) {
 		return "warning";
+	} else if (startsWith($rawname, "refs/tags")) {
+		return "success";
 	} else {
 		return "default";
 	}
 }
+
 function filter_git_events(Array $events) {
 	$newArr = [];
-	foreach($events as $event) {
-		switch($event->type) {
+	foreach ($events as $event) {
+		switch ($event->type) {
 			case "PushEvent":
 			case "PublicEvent":
 			case "PullRequestEvent":
+			case "CreateEvent":
 			case "ForkEvent":
 			case "ReleaseEvent":
-				$newArr[] = $event;	
+				$newArr[] = $event;
 		}
 	}
 	return $newArr;
 }
 
+function recurse_copy($src, $dst) {
+	$dir = opendir($src);
+	@mkdir($dst);
+	while (false !== ( $file = readdir($dir))) {
+		if (( $file != '.' ) && ( $file != '..' )) {
+			if (is_dir($src . '/' . $file)) {
+				recurse_copy($src . '/' . $file, $dst . '/' . $file);
+			} else {
+				copy($src . '/' . $file, $dst . '/' . $file);
+			}
+		}
+	}
+	closedir($dir);
+}
+
+$extend_depth = 0;
+$extend_array = [];
+
+function extend($other) {
+	global $extend_depth, $extend_array;
+	$extend_depth++;
+	ob_start();
+	include $other;
+	$end = ob_get_clean();
+	$start = isset($extend_array[$extend_depth]) ? $extend_array[$extend_depth] : $end;
+	unset($extend_array[$extend_depth]);
+	$page_decorator = function ($contents, $phase) use ($start, $end) {
+		if ($phase & PHP_OUTPUT_HANDLER_START) {
+			$contents = $start . $contents;
+		}
+		if ($phase & PHP_OUTPUT_HANDLER_END) {
+			$contents = $contents . $end;
+		}
+		return $contents;
+	};
+	ob_start($page_decorator, 1024 * 8);
+}
+
+function extend_body() {
+	global $extend_depth, $extend_array;
+	$extend_array[$extend_depth] = ob_get_contents();
+	ob_clean();
+}
+
+function includeToFile($php, $to) {
+	global $extend_depth;
+	$file = fopen($to, "w");
+	ob_start(function($contents) use ($file) {
+		fwrite($file, $contents);
+	});
+	include $php;
+	for (; $extend_depth > 0; $extend_depth--) {
+		ob_end_flush();
+	}
+	ob_end_flush();
+}
+
+function dumpToFile($function, $to) {
+	
+}
+
 //var_dump(loadUrlJson("https://api.github.com/users/ferrybig/events", SECONDS_IN_A_DAY));
-ob_start();
-include "github_contributions.php";
-file_put_contents("output/github_contributions.html", ob_get_clean());
+@mkdir("output");
+@mkdir("output/site");
+recurse_copy("public_html/", "output/site");
+includeToFile("index.output.php", "output/site/index.html");
