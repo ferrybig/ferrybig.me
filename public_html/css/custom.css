@@ -7,6 +7,9 @@ and open the template in the editor.
     Created on : 19-nov-2016, 17:08:52
     Author     : Fernando
 */
+body {
+	background-color: #eff4f9;
+}
 .timeline {
 	position: relative;
 	padding: 0;
