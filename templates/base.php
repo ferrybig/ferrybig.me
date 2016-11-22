@@ -9,7 +9,7 @@
 		<link href="css/bootstrap-theme.min.css" rel="stylesheet">
 		<link href="css/custom.css" rel="stylesheet">
 		<link rel="canonical" href="<?= $config['baseurl'] . $url ?>">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
 		<!--[if lt IE 9]> <script src=https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js></script><![endif]--> 
 	</head>
