@@ -6,7 +6,7 @@
 	</div>
 	<div class="panel-body">
 		<ol class="commit-list media-list">
-			<?PHP foreach(loadUrlJson("https://api.github.com/users/ferrybig/events?per_page=15", SECONDS_IN_A_DAY) as $event): ?>
+			<?PHP foreach(loadUrlJson("https://api.github.com/users/ferrybig/events?per_page=7", EXPIRE_HOUR) as $event): ?>
 				<li class="commit media">
 					<div class="media-body">
 						<h3 class="media-heading commit-name" style="font-size: 130%">
@@ -32,11 +32,10 @@
 										<?PHP if(loadUrlJson($commit->url)->author) : ?>
 											<a href="<?= htmlentities(loadUrlJson($commit->url)->author->html_url) ?>">
 												@<?= htmlentities(loadUrlJson($commit->url)->author->login) ?>
-											</a>
+											</a>:
 										<?PHP else: ?>
-											<?= htmlentities($commit->author->name) ?>
+											<?= htmlentities($commit->author->name) ?>:
 										<?PHP endif; ?>
-										:
 										<a href="<?= htmlentities(loadUrlJson($commit->url)->html_url) ?>">
 											<?= htmlentities(explode("\n",$commit->message)[0]) ?>
 										</a>
@@ -57,12 +56,9 @@
 							</p>
 						<?PHP else: ?>
 							<p class="commit-description">
-								Unknown action
+								Unknown action: <?= $event->type ?>
 							</p>
 						<?PHP endif; ?>
-						<ol class="commit-sublist">
-							
-						</ol>
 					</div>
 				</li>
 			<?PHP endforeach; ?>
