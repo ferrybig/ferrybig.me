@@ -1,5 +1,9 @@
 <?PHP
 
+$config = [
+	"baseurl" => "ferrybig.me",
+];
+
 $curl = curl_init();
 
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
@@ -150,9 +154,12 @@ function recurse_copy($src, $dst) {
 $extend_depth = 0;
 $extend_array = [];
 
-function extend($other) {
-	global $extend_depth, $extend_array;
+function extend($other, $passedArgs = NULL) {
+	global $extend_depth, $extend_array, $config;
 	$extend_depth++;
+	if (is_array($passedArgs)) {
+		extract($passedArgs);
+	}
 	ob_start();
 	include $other;
 	$end = ob_get_clean();
@@ -177,7 +184,7 @@ function extend_body() {
 }
 
 function includeToFile($php, $to) {
-	global $extend_depth;
+	global $extend_depth, $config;
 	$file = fopen($to, "w");
 	ob_start(function($contents) use ($file) {
 		fwrite($file, $contents);
@@ -197,4 +204,5 @@ function dumpToFile($function, $to) {
 @mkdir("output");
 @mkdir("output/site");
 recurse_copy("public_html/", "output/site");
-includeToFile("index.output.php", "output/site/index.html");
+includeToFile("index.php", "output/site/index.html");
+includeToFile("about.php", "output/site/about.html");

@@ -1,4 +1,4 @@
-<?= extend("base.php"); ?>
+<?= extend("base.php", ["url" => ""]); ?>
 <div class="row">
 	<div class="col-md-4">
 		<div class="panel panel-default">
