@@ -93,6 +93,7 @@ body {
 }
 .commit .commit-sublist {
 	padding: 0;
+	padding-left: 0.5em;
 }
 .commit .commit-sublist li {
 	white-space: nowrap; 
