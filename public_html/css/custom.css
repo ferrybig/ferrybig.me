@@ -91,16 +91,27 @@ body {
 	margin-top: 1em;
 	border-bottom: 2px gray dashed;
 }
-.commit-sublist {
+.commit .commit-sublist {
 	padding: 0;
 }
-.commit-sublist li {
+.commit .commit-sublist li {
 	white-space: nowrap; 
 	overflow: hidden; 
 	text-overflow: ellipsis;
 	list-style-type: none;
 	width: 100%;
 }
-.commit-description {
+.commit .commit-description {
 	margin: 0;
+}
+.commit .commit-name {
+	font-size: 130%;
+	border-top: 2px dotted #b2c9e5;
+}
+.commit:first-child .commit-name {
+	border-top-width: 0;
+}
+.commit .commit-stats > * {
+	position: relative;
+	z-index: 1;
 }

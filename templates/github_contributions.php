@@ -7,9 +7,9 @@
 	<div class="panel-body">
 		<ol class="commit-list media-list">
 			<?PHP foreach (filter_git_events(loadUrlJson("https://api.github.com/users/ferrybig/events?per_page=7", EXPIRE_HOUR)) as $event): ?>
-				<li class="commit media">
-					<div class="media-body">
-						<h3 class="media-heading commit-name" style="font-size: 130%">
+				<li class="commit">
+					<div>
+						<h3 class="commit-name">
 							<a href="<?= htmlentities(loadUrlJson($event->repo->url)->html_url) ?>">
 								<?= htmlentities(loadUrlJson($event->repo->url)->full_name) ?>
 							</a>
@@ -30,6 +30,16 @@
 								<?PHP foreach (limit($event->payload->commits, 5) as $commit): ?>
 									<?PHP $commitObj = loadUrlJson($commit->url); ?>
 									<li>
+										<small class="pull-right commit-stats">
+											<span class="label label-success" title="<?= $commitObj->stats->additions ?> insertions">
+												<?= $commitObj->stats->additions ?>
+												<span class="glyphicon glyphicon-import"></span>
+											</span>
+											<span class="label label-danger" title="<?= $commitObj->stats->deletions ?> deletions">
+												<?= $commitObj->stats->deletions ?>
+												<span class="glyphicon glyphicon-export"></span>
+											</span>
+										</small>
 										<?PHP if ($commitObj->author) : ?>
 											<a href="<?= htmlentities(loadUrlJson($commit->url)->author->html_url) ?>">
 												@<?= htmlentities(loadUrlJson($commit->url)->author->login) ?>
@@ -40,20 +50,6 @@
 										<a href="<?= htmlentities($commitObj->html_url) ?>">
 											<?= htmlentities(explode("\n", $commit->message)[0]) ?>
 										</a>
-										<small>
-											<?PHP if ($commitObj->stats->additions) : ?>
-												<span class="label label-success" title="<?= $commitObj->stats->additions ?> insertions">
-													<?= $commitObj->stats->additions ?>
-													<span class="glyphicon glyphicon-import"></span>
-												</span>
-											<?PHP endif; ?>
-											<?PHP if ($commitObj->stats->deletions) : ?>
-												<span class="label label-danger" title="<?= $commitObj->stats->deletions ?> deletions">
-													<?= $commitObj->stats->deletions ?>
-													<span class="glyphicon glyphicon-export"></span>
-												</span>
-											<?PHP endif; ?>
-										</small>
 									</li>
 								<?PHP endforeach; ?>
 								<?PHP if (has_limited($event->payload->commits, 5)) : ?>
