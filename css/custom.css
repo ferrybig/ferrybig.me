@@ -1,0 +1,100 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 19-nov-2016, 17:08:52
+    Author     : Fernando
+*/
+.timeline {
+	position: relative;
+	padding: 0;
+}
+.timeline:before {
+	content: '';
+	position: absolute;
+	width: 0;
+	top: 0;
+	bottom: 0;
+	left:49%;
+	right:49%;
+	margin: 0 auto;
+	border-left: 3px dashed #6694cc;
+	border-right: 3px dashed #6694cc;
+}
+.timeline:after {
+	clear: both;
+	display: block;
+	content: '';
+}
+
+.timeline-point {
+	width: 48%;
+	position: relative;
+	border-top: 4px outset #b2c9e5;
+	list-style-type: none;
+}
+.timeline-point h4 small {
+	display: block;
+}
+.timeline-point:before {
+	content: '';
+	position: absolute;
+	top: -14px;
+	border: 12px transparent solid;
+}
+
+.timeline-point.left {
+	float: left;
+	clear: left;
+}
+.timeline-point.right {
+	float: right;
+	clear: right;
+}
+.timeline-point.clear {
+	clear: both;
+	margin-top: 3em;
+}
+.timeline-point.clear + .timeline-point {
+	margin-top: 5em;
+}
+.timeline-point.clear:first-child {
+	margin-top: 0;
+}
+.timeline-point.clear:first-child + .timeline-point {
+	margin-top: 2em;
+}
+.timeline-point.left:before {
+	right: -8px;
+	border-right-color: #b2c9e5;
+}
+.timeline-point.right:before {
+	left: -8px;
+	border-left-color: #b2c9e5;
+}
+.timeline-point.clear:before {
+	border-top-width: 0px;
+	top:-4px;
+}
+.timeline-point.left h4 {
+	text-align: right;
+}
+.timeline-point.right h4 {
+	text-align: left;
+}
+.section-about-me h3{
+	margin-top: 1em;
+	border-bottom: 2px gray dashed;
+}
+.commit-sublist {
+	padding: 0;
+}
+.commit-sublist li {
+	white-space: nowrap; 
+	overflow: hidden; 
+	text-overflow: ellipsis;
+	list-style-type: none;
+	width: 100%;
+}
