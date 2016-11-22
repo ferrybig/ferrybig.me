@@ -3,7 +3,6 @@
 $curl = curl_init();
 
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-curl_setopt($curl, CURLOPT_VERBOSE, 1);
 curl_setopt($curl, CURLOPT_HEADER, 1);
 curl_setopt($curl, CURLOPT_FILETIME, true);
 curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); // The worst thing that can happen is fake data
@@ -42,7 +41,7 @@ function loadUrlJson($url, $expireTime = EXPIRE_WEEK) {
 	}
 	curl_setopt($curl, CURLOPT_URL, $url);
 	curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-		'If-None-Match: $etag',
+		'If-None-Match: ' . $etag,
 		'User-Agent: Crawler for ferrybig.me',
 	));
 	$response = curl_exec($curl);
@@ -54,6 +53,7 @@ function loadUrlJson($url, $expireTime = EXPIRE_WEEK) {
 		fwrite(STDERR, "curl: (" . curl_errno($curl) . ") " . curl_error($curl));
 	}
 	$code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+	fwrite(STDERR, "cache: " . $url . ": " . ($code == 304 ? "hit" : "miss"));
 	if ($code == 304) {
 		$json->expires = time() + $expireTime;
 		file_put_contents("output/cache/$hash.json", json_encode($json));
@@ -65,7 +65,8 @@ function loadUrlJson($url, $expireTime = EXPIRE_WEEK) {
 	}
 	$json = new stdClass();
 	$json->payload = json_decode($body);
-	$json->expires = time() + max($expireTime, $header_arr["x-poll-interval"]);
+	$json->expires = time() + max($expireTime,
+			isset($header_arr["x-poll-interval"]) ? $header_arr["x-poll-interval"] : 0);
 	$json->url = $url;
 	$json->etag = $header_arr["etag"];
 	@mkdir("output");
@@ -110,6 +111,20 @@ function get_branch_style($rawname) {
 	} else {
 		return "default";
 	}
+}
+function filter_git_events(Array $events) {
+	$newArr = [];
+	foreach($events as $event) {
+		switch($event->type) {
+			case "PushEvent":
+			case "PublicEvent":
+			case "PullRequestEvent":
+			case "ForkEvent":
+			case "ReleaseEvent":
+				$newArr[] = $event;	
+		}
+	}
+	return $newArr;
 }
 
 //var_dump(loadUrlJson("https://api.github.com/users/ferrybig/events", SECONDS_IN_A_DAY));
