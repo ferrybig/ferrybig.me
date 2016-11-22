@@ -28,28 +28,29 @@
 							</p>
 							<ol class="commit-sublist">
 								<?PHP foreach (limit($event->payload->commits, 5) as $commit): ?>
+									<?PHP $commitObj = loadUrlJson($commit->url); ?>
 									<li>
-										<?PHP if (loadUrlJson($commit->url)->author) : ?>
+										<?PHP if ($commitObj->author) : ?>
 											<a href="<?= htmlentities(loadUrlJson($commit->url)->author->html_url) ?>">
 												@<?= htmlentities(loadUrlJson($commit->url)->author->login) ?>
 											</a>:
 										<?PHP else: ?>
 											<?= htmlentities($commit->author->name) ?>:
 										<?PHP endif; ?>
-										<a href="<?= htmlentities(loadUrlJson($commit->url)->html_url) ?>">
+										<a href="<?= htmlentities($commitObj->html_url) ?>">
 											<?= htmlentities(explode("\n", $commit->message)[0]) ?>
 										</a>
 										<small>
-											<?PHP if (loadUrlJson($commit->url)->stats->additions) : ?>
-												<span class="label label-success">
-													<?= loadUrlJson($commit->url)->stats->additions ?>
-													<span class="glyphicon glyphicon-save"></span>
+											<?PHP if ($commitObj->stats->additions) : ?>
+												<span class="label label-success" title="<?= $commitObj->stats->additions ?> insertions">
+													<?= $commitObj->stats->additions ?>
+													<span class="glyphicon glyphicon-import"></span>
 												</span>
 											<?PHP endif; ?>
-											<?PHP if (loadUrlJson($commit->url)->stats->deletions) : ?>
-												<span class="label label-danger">
-													<?= loadUrlJson($commit->url)->stats->deletions ?>
-													<span class="glyphicon glyphicon-open"></span>
+											<?PHP if ($commitObj->stats->deletions) : ?>
+												<span class="label label-danger" title="<?= $commitObj->stats->deletions ?> deletions">
+													<?= $commitObj->stats->deletions ?>
+													<span class="glyphicon glyphicon-export"></span>
 												</span>
 											<?PHP endif; ?>
 										</small>
