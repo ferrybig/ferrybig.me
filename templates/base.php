@@ -31,10 +31,10 @@
 					<!-- Collect the nav links, forms, and other content for toggling -->
 					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 						<ul class="nav navbar-nav">
-							<li class="active"><a href="./">Home</a></li>
-							<li><a href="about.html">About me <span class="sr-only">(current)</span></a></li>
-							<li><a href="projects/">Projects</a></li>
-							<li><a href="contact.html">Contact me</a></li>
+							<li class="<?= $page == "index" ? "active" : "" ?>"><a href="./">Home</a></li>
+							<li class="<?= $page == "about" ? "active" : "" ?>"><a href="about.html">About me <span class="sr-only">(current)</span></a></li>
+							<li class="<?= $page == "projects" ? "active" : "" ?>"><a href="projects/">Projects</a></li>
+							<li class="<?= $page == "contact" ? "active" : "" ?>"><a href="contact.html">Contact me</a></li>
 						</ul>
 					</div><!-- /.navbar-collapse -->
 				</div><!-- /.container-fluid -->
