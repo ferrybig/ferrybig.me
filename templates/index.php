@@ -65,6 +65,6 @@
 		</div>
 	</div>
 	<div class="col-md-4">
-		<?PHP include "github_contributions.php" ?>
+		<?PHP include "github.php" ?>
 	</div>
 </div>

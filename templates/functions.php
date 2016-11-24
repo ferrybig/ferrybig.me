@@ -12,12 +12,7 @@ function get_headers_from_curl_response($response) {
 	}
 	return $headers;
 }
-function nonNull(&...$args) {
-    for($i = 0; $i < count($args); $i++) {
-    	if($args[$i])
-    		return $args[$i];
-    }
-}
+
 function loadUrlJson($url, $expireTime = EXPIRE_WEEK) {
 	global $curl;
 	if (!isset($expireTime)) {//todo
@@ -182,6 +177,7 @@ function extend_body() {
 function includeToFile($php, $to) {
 	global $extend_depth, $config;
 	$file = fopen($to, "w");
+	fwrite(STDERR, "Writing $php to $to\n");
 	ob_start(function($contents) use ($file) {
 		fwrite($file, $contents);
 	});

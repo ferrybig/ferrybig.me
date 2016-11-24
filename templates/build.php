@@ -2,6 +2,7 @@
 
 $config = [
 	"baseurl" => "ferrybig.me",
+	"title" => "ferrybig.me",
 ];
 
 $curl = curl_init();
@@ -21,3 +22,6 @@ require "functions.php";
 copy_dir("public_html/", "output/site");
 includeToFile("index.php", "output/site/index.html");
 includeToFile("about.php", "output/site/about.html");
+includeToFile("github_frame.php", "output/site/github_frame.html");
+
+echo "Done!";

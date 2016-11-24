@@ -165,7 +165,7 @@
 				</div>
 			</div>
 			<div class="col-sm-6 col-md-12">
-				<?PHP include "github_contributions.php" ?>
+				<?PHP include "github.php" ?>
 			</div>
 		</div>
 	</aside>
