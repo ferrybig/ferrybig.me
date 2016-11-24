@@ -4,13 +4,13 @@
 		<meta charset="utf-8"> 
 		<meta content="IE=edge" http-equiv="X-UA-Compatible"> 
 		<meta content="width=device-width,initial-scale=1" name="viewport"> 
-		<title><?= $title ?? $config["title"]?></title>
-		<link href="css/bootstrap.min.css" rel="stylesheet">
-		<link href="css/bootstrap-theme.min.css" rel="stylesheet">
-		<link href="css/custom.css" rel="stylesheet">
+		<title><?= $title ?? $config["title"] ?></title>
+		<link href="<?= $base ?? "./" ?>css/bootstrap.min.css" rel="stylesheet">
+		<link href="<?= $base ?? "./" ?>css/bootstrap-theme.min.css" rel="stylesheet">
+		<link href="<?= $base ?? "./" ?>css/custom.css" rel="stylesheet">
 		<link rel="canonical" href="<?= $config['baseurl'] . $url ?>">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-		<script src="js/bootstrap.min.js"></script>
+		<script src="<?= $base ?? "./" ?>js/bootstrap.min.js"></script>
 		<!--[if lt IE 9]> <script src=https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js></script><![endif]--> 
 	</head>
 	<?PHP if(!isset($no_container)) : ?>
@@ -32,10 +32,10 @@
 						<!-- Collect the nav links, forms, and other content for toggling -->
 						<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 							<ul class="nav navbar-nav">
-								<li class="<?= $page == "index" ? "active" : "" ?>"><a href="./">Home</a></li>
-								<li class="<?= $page == "about" ? "active" : "" ?>"><a href="about.html">About me <span class="sr-only">(current)</span></a></li>
-								<li class="<?= $page == "projects" ? "active" : "" ?>"><a href="projects/">Projects</a></li>
-								<li class="<?= $page == "contact" ? "active" : "" ?>"><a href="contact.html">Contact me</a></li>
+								<li class="<?= $page == "index" ? "active" : "" ?>"><a href="<?= $base ?? "./" ?>">Home</a></li>
+								<li class="<?= $page == "about" ? "active" : "" ?>"><a href="<?= $base ?? "./" ?>about.html">About me <span class="sr-only">(current)</span></a></li>
+								<li class="<?= $page == "projects" ? "active" : "" ?>"><a href="<?= $base ?? "./" ?>projects/">Projects</a></li>
+								<li class="<?= $page == "contact" ? "active" : "" ?>"><a href="<?= $base ?? "./" ?>contact.html">Contact me</a></li>
 							</ul>
 						</div><!-- /.navbar-collapse -->
 					</div><!-- /.container-fluid -->

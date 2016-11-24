@@ -139,30 +139,7 @@
 	<aside class="col-md-4 hidden-print">
 		<div class="row">
 			<div class="col-sm-6 col-md-12">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h2>Recent projects</h2>
-					</div>
-					<div class="panel-body">
-						<ul class="project-list media-list">
-							<li class="project media">
-								<div class="media-left">
-									<a href="projects/NeuralNetwork">
-										<img class="media-object" src="projects/images/NeuralNetwork-s.png" alt="">
-									</a>
-								</div>
-								<div class="media-body">
-									<h3 class="media-heading project-name" style="font-size: 130%">
-										<a href="projects/NeuralNetwork">NeuralNetwork</a>
-									</h3>
-									<p class="project-description">
-										A neural network implentation for java
-									</p>
-								</div>
-							</li>
-						</ul>
-					</div>
-				</div>
+				<?PHP include "projects.php" ?>
 			</div>
 			<div class="col-sm-6 col-md-12">
 				<?PHP include "github.php" ?>

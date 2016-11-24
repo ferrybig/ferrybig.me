@@ -22,6 +22,8 @@ require "functions.php";
 copy_dir("public_html/", "output/site");
 includeToFile("index.php", "output/site/index.html");
 includeToFile("about.php", "output/site/about.html");
+includeToFile("contact.php", "output/site/contact.html");
 includeToFile("github_frame.php", "output/site/github_frame.html");
+includeToFile("projects_index.php", "output/site/projects/index.html");
 
 echo "Done!";
