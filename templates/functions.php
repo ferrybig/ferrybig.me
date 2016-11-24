@@ -124,6 +124,14 @@ function filter_git_events(Array $events) {
 	}
 	return $newArr;
 }
+
+function copy_dir($src, $dst) {
+	exec("rsync -a " .  escapeshellarg($src) . " " . escapeshellarg($dst), $output, $rtn);
+	fwrite(STDERR, implode("\n", $output));
+	if($rtn != 0) // bad exit status
+		recurse_copy($src, $dst);
+}
+
 function recurse_copy($src, $dst) {
 	$dir = opendir($src);
 	@mkdir($dst);

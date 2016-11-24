@@ -18,6 +18,6 @@ require "functions.php";
 
 @mkdir("output");
 @mkdir("output/site");
-recurse_copy("public_html/", "output/site");
+copy_dir("public_html/", "output/site");
 includeToFile("index.php", "output/site/index.html");
 includeToFile("about.php", "output/site/about.html");
