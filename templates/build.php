@@ -26,4 +26,4 @@ includeToFile("contact.php", "output/site/contact.html");
 includeToFile("github_frame.php", "output/site/github_frame.html");
 includeToFile("projects_index.php", "output/site/projects/index.html");
 
-echo "Done!";
+echo "Done!\n";
