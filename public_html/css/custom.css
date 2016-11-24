@@ -7,7 +7,7 @@ and open the template in the editor.
     Created on : 19-nov-2016, 17:08:52
     Author     : Fernando
 */
-body {
+body.main_body {
 	background-color: #eff4f9;
 }
 .timeline {
@@ -115,4 +115,10 @@ body {
 .commit .commit-stats > * {
 	position: relative;
 	z-index: 1;
+}
+.commit-frame {
+	border: 0px;
+	height: 80vh;
+	overflow: scroll;
+	width: 100%;
 }
