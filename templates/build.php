@@ -24,10 +24,10 @@ require "functions.php";
 @mkdir("output");
 @mkdir("output/site");
 copy_dir("public_html/", "output/site");
-includeToFile("index.php", "output/site/index.html");
-includeToFile("about.php", "output/site/about.html");
-includeToFile("contact.php", "output/site/contact.html");
-includeToFile("github_frame.php", "output/site/github_frame.html");
-includeToFile("projects_index.php", "output/site/projects/index.html");
+includeToFile("pages/index.php", "output/site/index.html");
+includeToFile("pages/about.php", "output/site/about.html");
+includeToFile("pages/contact.php", "output/site/contact.html");
+includeToFile("pages/github_frame.php", "output/site/github_frame.html");
+includeToFile("pages/projects_index.php", "output/site/projects/index.html");
 
 echo "Done!\n";

@@ -1,4 +1,4 @@
-<?= extend("base.php", ['url' => "about.html", "page" => "about"]); ?>
+<?= extend(__DIR__ . "/../modules/base.php", ['url' => "about.html", "page" => "about"]); ?>
 <div class="row">
 	<div class="col-md-8">
 		<div class="panel panel-default">
@@ -139,10 +139,10 @@
 	<aside class="col-md-4 hidden-print">
 		<div class="row">
 			<div class="col-sm-6 col-md-12">
-				<?PHP include "projects.php" ?>
+				<?PHP include __DIR__ . "/../modules/projects.php" ?>
 			</div>
 			<div class="col-sm-6 col-md-12">
-				<?PHP include "github.php" ?>
+				<?PHP include __DIR__ . "/../modules/github.php" ?>
 			</div>
 		</div>
 	</aside>

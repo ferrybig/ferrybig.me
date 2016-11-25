@@ -1,9 +1,10 @@
-<?= extend("base.php", ['url' => "contact.html", "page" => "contact"]); ?>
+<?= extend(__DIR__ . "/../modules/base.php", ['url' => "projects/", "page" => "projects", "base" => "../"]); ?>
+<?PHP $base = "../"; ?>
 <div class="row">
 	<div class="col-md-8">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h2>Contacts</h2>
+				<h2>Projects</h2>
 			</div>
 			<div class="panel-body section-about-me">
 				This page is unsuported at this time... Check again soon...
@@ -13,10 +14,10 @@
 	<aside class="col-md-4 hidden-print">
 		<div class="row">
 			<div class="col-sm-6 col-md-12">
-				<?PHP include "projects.php" ?>
+				<?PHP include __DIR__ . "/../modules/projects.php" ?>
 			</div>
 			<div class="col-sm-6 col-md-12">
-				<?PHP include "github.php" ?>
+				<?PHP include __DIR__ . "/../modules/github.php" ?>
 			</div>
 		</div>
 	</aside>

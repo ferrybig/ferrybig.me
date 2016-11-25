@@ -1,4 +1,4 @@
-<?= extend("base.php", ["url" => "", "page" => "index"]); ?>
+<?= extend(__DIR__ . "/../modules/base.php", ["url" => "", "page" => "index"]); ?>
 <div class="row">
 	<div class="col-md-4">
 		<div class="panel panel-default">
@@ -34,9 +34,9 @@
 		</div>
 	</div>
 	<div class="col-md-4">
-		<?PHP include "projects.php" ?>
+		<?PHP include __DIR__ . "/../modules/projects.php" ?>
 	</div>
 	<div class="col-md-4">
-		<?PHP include "github.php" ?>
+		<?PHP include __DIR__ . "/../modules/github.php" ?>
 	</div>
 </div>

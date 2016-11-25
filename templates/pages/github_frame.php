@@ -1,4 +1,4 @@
-<?= extend("base.php", ["url" => "github_frame.html", "page" => null, "no_container" => true]); ?>
+<?= extend(__DIR__ . "/../modules/base.php", ["url" => "github_frame.html", "page" => null, "no_container" => true]); ?>
 <ol class="commit-list media-list">
 	<?PHP foreach (filter_git_events(loadUrlJson("https://api.github.com/users/ferrybig/events?per_page=7", EXPIRE_HOUR)) as $event): ?>
 		<li class="commit">
