@@ -5,6 +5,10 @@ $config = [
 	"title" => "ferrybig.me",
 ];
 
+ini_set('log_errors', 1);
+ini_set('display_errors', 0);
+error_reporting(-1);
+
 $curl = curl_init();
 
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
