@@ -58,11 +58,11 @@
 				<?PHP elseif ($event->type == "PullRequestEvent"): ?>
 					<p class="commit-description">
 						<?PHP if ($event->payload->action == "closed" && $event->payload->pull_request->merged == true) : ?>
-							Merged pull request:
+							<span class="label label-success">Merged</span> pull request:
 						<?PHP elseif ($event->payload->action == "closed") : ?>
-							Closed pull request:
+							<span class="label label-danger">Closed</span> pull request:
 						<?PHP elseif ($event->payload->action == "opened") : ?>
-							Opened pull request:
+							<span class="label label-info">Opened</span> pull request:
 						<?PHP else: ?>
 							???
 						<?PHP endif; ?>
