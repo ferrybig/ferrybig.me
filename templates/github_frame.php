@@ -16,9 +16,9 @@
 						<?PHP else: ?>
 							Pushed <?= count($event->payload->commits) ?> commits to
 						<?PHP endif; ?>
-						<span class="label label-<?= get_branch_style($event->payload->ref) ?>">
+						<var class="label label-<?= get_branch_style($event->payload->ref) ?>">
 							<?= htmlentities(format_branch_name($event->payload->ref)) ?>
-						</span>
+						</var>
 					</p>
 					<ol class="commit-sublist">
 						<?PHP foreach (limit($event->payload->commits, 5) as $commit): ?>
@@ -85,14 +85,14 @@
 							Created repository
 						<?PHP elseif ($event->payload->ref_type == "branch") : ?>
 							Created branch
-							<span class="label label-<?= get_branch_style("refs/heads/" . $event->payload->ref) ?>">
+							<var class="label label-<?= get_branch_style("refs/heads/" . $event->payload->ref) ?>">
 								<?= htmlentities($event->payload->ref) ?>
-							</span>
+							</var>
 						<?PHP elseif ($event->payload->ref_type == "tag") : ?>
 							Created tag
-							<span class="label label-<?= get_branch_style("refs/tags/" . $event->payload->ref) ?>">
+							<var class="label label-<?= get_branch_style("refs/tags/" . $event->payload->ref) ?>">
 								<?= htmlentities($event->payload->ref) ?>
-							</span>
+							</var>
 						<?PHP else: ?>
 							Unknown create event
 						<?PHP endif; ?>
