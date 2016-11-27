@@ -117,7 +117,7 @@ function filter_git_events(Array $events) {
 				$newArr[] = $event;
 		}
 	}
-	return $newArr;
+	return limit($newArr, 7);
 }
 
 function copy_dir($src, $dst) {
