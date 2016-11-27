@@ -1,7 +1,7 @@
 <?PHP
 
 $config = [
-	"baseurl" => "ferrybig.me",
+	"baseurl" => "https://ferrybig.me",
 	"title" => "ferrybig.me",
 ];
 
