@@ -23,7 +23,7 @@
 							<?PHP if(is_array($project->language)): ?>
 								<?PHP foreach($project->language as $language) : ?>
 									<span class="label label-default">
-										<?= htmlentities($project->language) ?>
+										<?= htmlentities($language) ?>
 									</span>
 								<?PHP endforeach; ?>
 							<?PHP else: ?>
