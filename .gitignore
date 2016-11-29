@@ -2,3 +2,5 @@
 *~
 
 /nbproject/private
+/templates/config/projects.json
+/templates/config/config.json
