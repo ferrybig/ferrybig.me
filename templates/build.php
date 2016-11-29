@@ -28,6 +28,7 @@ includeToFile("pages/index.php", "output/site/index.html");
 includeToFile("pages/about.php", "output/site/about.html");
 includeToFile("pages/contact.php", "output/site/contact.html");
 includeToFile("pages/github_frame.php", "output/site/github_frame.html");
+includeToFile("pages/projects_frame.php", "output/site/projects_frame.html");
 includeToFile("pages/projects_index.php", "output/site/projects/index.html");
 
 echo "Done!\n";

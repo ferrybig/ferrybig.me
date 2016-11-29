@@ -191,3 +191,22 @@ function includeToFile($php, $to) {
 function dumpToFile($function, $to) {
 	
 }
+
+function useExpandSystem(Array $orginal, $cache = EXPIRE_WEEK) {
+	foreach($orginal as $key => &$value) {
+		if(isset($value->more)) {
+			if(is_array($value->more)) {
+				foreach($value->more as $doc) {
+					$value = (object)array_merge((array)$value, (array)loadUrlJson($doc, $cache));
+				}
+			}
+			if(is_string($value->more)) {
+				$value = (object)array_merge((array)$value, (array)loadUrlJson($value->more, $cache));
+			}
+		}
+	}
+	return $orginal;
+}
+function str_max_length($str, $length) {
+	return $str; // TODO
+}
