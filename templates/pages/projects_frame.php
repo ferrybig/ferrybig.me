@@ -18,23 +18,25 @@
 			<div class="media-body">
 				<h3 class="media-heading project-name" style="font-size: 130%">
 					<a href="<?= htmlentities($project->html_url) ?>"><?= htmlentities($project->name) ?></a>
-					<?PHP if(isset($project->language)): ?>
+				</h3>
+				<?PHP if(isset($project->language)): ?>
+					<p class="project-tags">
 						<small>
 							<?PHP if(is_array($project->language)): ?>
 								<?PHP foreach($project->language as $language) : ?>
-									<span class="label label-default">
+							<span class="label language-tag language-tag-<?= htmlentities(strtolower($language)) ?>">
 										<?= htmlentities($language) ?>
 									</span>
 								<?PHP endforeach; ?>
 							<?PHP else: ?>
-								<span class="label label-default">
+								<span class="label language-tag language-tag-<?= htmlentities(strtolower($project->language)) ?>">
 									<?= htmlentities($project->language) ?>
 								</span>
 							<?PHP endif; ?>
 						</small>
-					<?PHP endif; ?>
-				</h3>
-				<p>
+					</p>
+				<?PHP endif; ?>
+				<p class="project-time">
 					<small>
 						<time datetime="<?= htmlentities($project->created_at) ?>">
 							Created at: <?= htmlentities(gmdate('Y-m-d H:i:s', strtotime($project->created_at))) ?>

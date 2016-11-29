@@ -122,3 +122,47 @@ body.main_body {
 	overflow: scroll;
 	width: 100%;
 }
+.language-tag {
+	margin: 0 2px;
+	color: black;
+}
+.language-tag-shell {
+	background-color: #383838;
+	color: white;
+}
+.language-tag-java {
+	background-color: #ff6666;
+}
+.language-tag-bukkit {
+	background-color: #bfbfbf;
+}
+.language-tag-minecraft {
+	background-color: #00cc66;
+}
+.language-tag-html {
+	background-color: #ffc27a;
+}
+.language-tag-javascript {
+	background-color: #ffff7a;
+}
+.language-tag-php {
+	background-color: #7aa6ff;
+}
+.language-tag-css {
+	background-color: #7ad6ff;
+}
+.project {
+	margin-bottom: 0.5em;
+}
+.project .project-name {
+	margin-bottom: 0;
+}
+.project .project-tags {
+	margin-bottom: 0;
+}
+.project .project-time {
+	margin-bottom: 0;
+}
+.project .project-description {
+	margin-bottom: 0;
+}
