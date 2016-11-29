@@ -1,2 +1,2 @@
 #!/bin/sh
-php templates/build.php
+php templates/build.php "$@"
