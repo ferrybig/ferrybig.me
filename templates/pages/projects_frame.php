@@ -20,9 +20,17 @@
 					<a href="<?= htmlentities($project->html_url) ?>"><?= htmlentities($project->name) ?></a>
 					<?PHP if(isset($project->language)): ?>
 						<small>
-							<span class="label label-default">
-								<?= htmlentities($project->language) ?>
-							</span>
+							<?PHP if(is_array($project->language)): ?>
+								<?PHP foreach($project->language as $language) : ?>
+									<span class="label label-default">
+										<?= htmlentities($project->language) ?>
+									</span>
+								<?PHP endforeach; ?>
+							<?PHP else: ?>
+								<span class="label label-default">
+									<?= htmlentities($project->language) ?>
+								</span>
+							<?PHP endif; ?>
 						</small>
 					<?PHP endif; ?>
 				</h3>
