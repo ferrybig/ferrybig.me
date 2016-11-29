@@ -13,17 +13,20 @@
 					<?PHP else: ?>
 						<?PHP $projects = []; ?>
 					<?PHP endif; ?>
-					<?PHP
-					usort($projects, function($a, $b) {
-						return $a->name < $b->name ? 1 : -1;
-					});
-					?>
+					<?PHP usort($projects, function($a, $b) { return strnatcasecmp($a->name, $b->name);}); ?>
 					<?PHP foreach ($projects as $project): ?>
+						<?PHP if(isset($project->hidden) && $project->hidden) continue; ?>
 						<li class="project media">
 							<?PHP if (isset($project->icons)): ?>
 								<div class="media-left">
 									<a href="<?= htmlentities($project->html_url) ?>">
-										<img class="media-object" src="<?= htmlentities($project->icons[0]->medium) ?>" alt="">
+										<img class="media-object" src="<?= htmlentities($project->icons[0]->medium) ?>" alt="" width="128" height="128">
+									</a>
+								</div>
+							<?PHP else: ?>
+								<div class="media-left">
+									<a href="<?= htmlentities($project->html_url) ?>">
+										<img class="media-object" src="../images/missing_image.svg" alt="" width="128" height="128">
 									</a>
 								</div>
 							<?PHP endif; ?>

@@ -151,6 +151,10 @@ body.main_body {
 .language-tag-css {
 	background-color: #7ad6ff;
 }
+.language-tag-python {
+	background-color:rgb(59,119,170);
+	background: linear-gradient(to right, rgb(59,119,170) 0%,rgb(59,119,170) 50%,rgb(246,204,17) 50%,rgb(246,204,17) 100%);
+}
 .project {
 	margin-bottom: 0.5em;
 }
