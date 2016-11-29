@@ -6,7 +6,7 @@
 			<div class="panel-heading">
 				<h2>Projects</h2>
 			</div>
-			<div class="panel-body section-about-me">
+			<div class="panel-body">
 				<ul class="project-list media-list">
 					<?PHP if (file_exists(__DIR__ . "/../config/projects.json")): ?>
 						<?PHP $projects = useExpandSystem(json_decode(file_get_contents(__DIR__ . "/../config/projects.json"))); ?>
@@ -15,10 +15,10 @@
 					<?PHP endif; ?>
 					<?PHP
 					usort($projects, function($a, $b) {
-						return $a->created_at < $b->created_at ? 1 : -1;
+						return $a->name < $b->name ? 1 : -1;
 					});
 					?>
-					<?PHP foreach (limit($projects, 14) as $project): ?>
+					<?PHP foreach ($projects as $project): ?>
 						<li class="project media">
 							<?PHP if (isset($project->icons)): ?>
 								<div class="media-left">
@@ -56,7 +56,7 @@
 									</small>
 								</p>
 								<p class="project-description">
-									<?= htmlentities(str_max_length($project->description, 255)) ?>
+									<?= htmlentities(str_max_length($project->description, 1024)) ?>
 								</p>
 							</div>
 						</li>
