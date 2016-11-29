@@ -9,9 +9,10 @@
 		<link href="<?= $base ?? "./" ?>css/bootstrap-theme.min.css" rel="stylesheet">
 		<link href="<?= $base ?? "./" ?>css/custom.css" rel="stylesheet">
 		<link rel="canonical" href="<?= $config['baseurl'] . $url ?>">
+		<base target="<?= $target ?? "_self"?>">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 		<script src="<?= $base ?? "./" ?>js/bootstrap.min.js"></script>
-		<!--[if lt IE 9]> <script src=https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js></script><![endif]--> 
+		<!--[if lt IE 9]> <script src=https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js></script><![endif]-->
 	</head>
 	<?PHP if(!isset($no_container)) : ?>
 		<body class="main_body">

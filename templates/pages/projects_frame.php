@@ -1,4 +1,4 @@
-<?= extend(__DIR__ . "/../modules/base.php", ["url" => "github_frame.html", "page" => null, "no_container" => true]); ?>
+<?= extend(__DIR__ . "/../modules/base.php", ["url" => "github_frame.html", "page" => null, "no_container" => true, "target" => "_parent"]); ?>
 <ul class="project-list media-list">
 	<?PHP if(file_exists(__DIR__ . "/../config/projects.json")): ?>
 		<?PHP $projects = useExpandSystem(json_decode(file_get_contents(__DIR__ . "/../config/projects.json"))); ?>
