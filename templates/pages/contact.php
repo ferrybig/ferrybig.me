@@ -5,7 +5,7 @@
 			<div class="panel-heading">
 				<h2>Contacts</h2>
 			</div>
-			<div class="panel-body section-about-me">
+			<div class="panel-body">
 				This page is unsuported at this time... Check again soon...
 			</div>
 		</div>
