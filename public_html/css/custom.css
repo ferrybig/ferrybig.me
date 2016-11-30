@@ -118,7 +118,7 @@ body.main_body {
 }
 .commit-frame {
 	border: 0px;
-	height: 80vh;
+	height: 60vh;
 	overflow: scroll;
 	width: 100%;
 }
