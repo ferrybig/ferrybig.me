@@ -11,7 +11,7 @@
 			<?PHP if(isset($project->icons)): ?>
 				<div class="media-left">
 					<a href="<?= htmlentities($project->html_url) ?>">
-						<img class="media-object" src="<?= htmlentities($project->icons[0]->small) ?>" alt="">
+						<img class="media-object" src="<?= htmlentities($project->icons[0]->small) ?>" alt="" width="64" height="64">
 					</a>
 				</div>
 			<?PHP endif; ?>
