@@ -32,15 +32,33 @@ if (empty($pos_args)) {
 foreach ($pos_args as $action) {
 	switch ($action) {
 		case "build":
+			fwrite(STDERR, "Starting build...\n");
 			@mkdir("output");
 			@mkdir("output/site");
+
+			fwrite(STDERR, "Loading projects...\n");
+			if(file_exists(__DIR__ . "/config/projects.json")):
+				$projects = useExpandSystem(json_decode(file_get_contents(__DIR__ . "/config/projects.json")));
+			else:
+				fwrite(STDERR, "Warning, `projects.json` not found in templates/config/!\n");
+				$projects = [];
+			endif;
+
+			fwrite(STDERR, "Copy static resources...\n");
 			copy_dir("public_html/", "output/site");
+
+			fwrite(STDERR, "Generating basic pages...\n");
 			includeToFile("pages/index.php", "output/site/index.html");
 			includeToFile("pages/about.php", "output/site/about.html");
 			includeToFile("pages/contact.php", "output/site/contact.html");
 			includeToFile("pages/github_frame.php", "output/site/github_frame.html");
-			includeToFile("pages/projects_frame.php", "output/site/projects_frame.html");
-			includeToFile("pages/projects_index.php", "output/site/projects/index.html");
+			includeToFile("pages/projects_frame.php", "output/site/projects_frame.html", ["projects" => $projects]);
+			includeToFile("pages/projects_index.php", "output/site/projects/index.html", ["projects" => $projects]);
+			
+			fwrite(STDERR, "Generate dynamic pages...\n");
+			foreach($projects as $project) {
+				includeToFile("pages/project.php", "output/site/projects/$project->slug.html", ["project" => $project]);
+			}
 			break;
 		case "projects":
 			//TODO: Change this number in the future... (or use proper paging system...)

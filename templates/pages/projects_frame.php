@@ -1,10 +1,5 @@
 <?= extend(__DIR__ . "/../modules/base.php", ["url" => "github_frame.html", "page" => null, "no_container" => true, "target" => "_parent"]); ?>
 <ul class="project-list media-list">
-	<?PHP if(file_exists(__DIR__ . "/../config/projects.json")): ?>
-		<?PHP $projects = useExpandSystem(json_decode(file_get_contents(__DIR__ . "/../config/projects.json"))); ?>
-	<?PHP else: ?>
-		<?PHP $projects = []; ?>
-	<?PHP endif; ?>
 	<?PHP usort($projects, function($a, $b){return $a->created_at < $b->created_at ? 1 : -1;}); ?>
 	<?PHP foreach(limit($projects, 14) as $project): ?>
 		<li class="project media">
@@ -17,7 +12,7 @@
 			<?PHP endif; ?>
 			<div class="media-body">
 				<h3 class="media-heading project-name" style="font-size: 130%">
-					<a href="<?= htmlentities($project->html_url) ?>"><?= htmlentities($project->name) ?></a>
+					<a href="<?= htmlentities($project->html_url) ?>"><?= htmlentities($project->nice_name) ?></a>
 				</h3>
 				<?PHP if(isset($project->language)): ?>
 					<p class="project-tags">

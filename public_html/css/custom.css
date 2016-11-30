@@ -170,3 +170,32 @@ body.main_body {
 .project .project-description {
 	margin-bottom: 0;
 }
+.project.project-full-page .project-tags {
+	margin-bottom: 0.25em;
+}
+.MD h1,
+.MD h2,
+.MD h3,
+.MD h4,
+.MD h5,
+.MD h6 {
+	position: relative;
+}
+.MD h1 .anchor,
+.MD h2 .anchor,
+.MD h3 .anchor,
+.MD h4 .anchor,
+.MD h5 .anchor,
+.MD h6 .anchor {
+	display: none;
+	position: absolute;
+	right: 100%;
+}
+.MD h1:hover .anchor,
+.MD h2:hover .anchor,
+.MD h3:hover .anchor,
+.MD h4:hover .anchor,
+.MD h5:hover .anchor,
+.MD h6:hover .anchor {
+	display: block;
+}

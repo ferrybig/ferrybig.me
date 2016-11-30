@@ -13,11 +13,8 @@ function get_headers_from_curl_response($response) {
 	return $headers;
 }
 
-function loadUrlJson($url, $expireTime = EXPIRE_WEEK) {
+function loadUrlJson($url, $expireTime = EXPIRE_WEEK, $accept = "application/vnd.github.v3.full+json, application/json", $raw = false) {
 	global $curl;
-	if (!isset($expireTime)) {//todo
-		$expireTime = SECONDS_IN_A_DAY;
-	}
 	$hash = hash("sha512", $url);
 	$etag = "";
 	if (file_exists("output/cache/$hash.json")) {
@@ -31,7 +28,7 @@ function loadUrlJson($url, $expireTime = EXPIRE_WEEK) {
 	curl_setopt($curl, CURLOPT_HTTPHEADER, array(
 		'If-None-Match: ' . $etag,
 		'User-Agent: Crawler for ferrybig.me',
-		'Accept: application/vnd.github.v3.full+json, application/json'
+		'Accept: '. $accept
 	));
 	$response = curl_exec($curl);
 	$header_size = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
@@ -49,15 +46,24 @@ function loadUrlJson($url, $expireTime = EXPIRE_WEEK) {
 		file_put_contents("output/cache/$hash.json", json_encode($json));
 		return $json->payload;
 	}
-	if ($code != 200) {
-		trigger_error("Invalid code received: " . $code);
-		return;
+	if	($raw) {
+		if ($code != 200 && $code != 404 && $code != 204) {
+			trigger_error("Invalid code received: " . $code);
+			return;
+		}
+	} else {
+		if ($code != 200) {
+			trigger_error("Invalid code received: " . $code);
+			return;
+		}
 	}
 	$json = new stdClass();
-	$json->payload = json_decode($body);
+	$json->payload = $raw ? $body : json_decode($body);
 	$json->expires = time() + max($expireTime, isset($header_arr["x-poll-interval"]) ? $header_arr["x-poll-interval"] : 0);
 	$json->url = $url;
-	$json->etag = $header_arr["etag"];
+	if (isset($header_arr["etag"])) {
+		$json->etag = $header_arr["etag"];
+	}
 	@mkdir("output");
 	@mkdir("output/cache");
 	file_put_contents("output/cache/$hash.json", json_encode($json));
@@ -174,13 +180,15 @@ function extend_body() {
 	ob_clean();
 }
 
-function includeToFile($php, $to) {
+function includeToFile($php, $to, Array $vars = []) {
 	global $extend_depth, $config;
 	$file = fopen($to, "w");
 	fwrite(STDERR, "Writing $php to $to\n");
 	ob_start(function($contents) use ($file) {
 		fwrite($file, $contents);
 	});
+	if(!empty($vars));
+		extract($vars);
 	include $php;
 	for (; $extend_depth > 0; $extend_depth--) {
 		ob_end_flush();
@@ -192,22 +200,60 @@ function dumpToFile($function, $to) {
 	
 }
 
+// Based on an edit of http://stackoverflow.com/a/3022234/1542723
+function slug($z){
+    $z = strtolower($z);
+    $z = preg_replace('/[^a-z0-9 \/_-]+/', '', $z);
+    $z = str_replace(' ', '-', $z);
+    $z = str_replace('/', '-', $z);
+    $z = str_replace('_', '-', $z);
+    return trim($z, '-');
+}
+
+function expandNode($value, $cache) {
+	if(is_string($value)) {
+		$value = loadUrlJson($value->more, $cache);
+	} else if(isset($value->more)) {
+		if(is_array($value->more)) {
+			foreach($value->more as $doc) {
+				$value = (object)array_merge((array)loadUrlJson($doc, $cache), (array)$value);
+			}
+		}
+		if(is_string($value->more)) {
+			$value = (object)array_merge((array)loadUrlJson($value->more, $cache), (array)$value);
+		}
+	}
+	return $value;
+}
+
+function expandProject(StdClass $value, $cache) {
+	if(isset($value->url) && !isset($value->description_html)) {
+		$readme = loadUrlJson($value->url . "/readme", $cache, "application/vnd.github.v3.html", true);
+		// Hacky 404 check, all 404's on github are json, and we expect html here...
+		if(!startsWith($readme, "{")) {
+			if(strlen(strip_tags($readme)) > strlen($value->description)) {
+				$value->description_html = $readme; //Github can send us a XSS attack here
+				$value->description_html = preg_replace(
+					"/href=\"#([a-z -]+)\"/",
+					"href=\"#user-content-\\1\"",
+					$value->description_html);
+				
+			}
+		}
+	}
+	if(!isset($value->description_html)) {
+		$value->description_html = nl2br(htmlentities($value->description));
+	}
+	if(!isset($value->nice_name)) {
+		$value->nice_name = $value->name;
+	}
+	$value->slug = slug($value->name);
+	return $value;
+}
+
 function useExpandSystem(Array $orginal, $cache = EXPIRE_WEEK) {
 	foreach($orginal as $key => &$value) {
-		if(is_string($value)) {
-			$value = loadUrlJson($value->more, $cache);
-			continue;
-		}
-		if(isset($value->more)) {
-			if(is_array($value->more)) {
-				foreach($value->more as $doc) {
-					$value = (object)array_merge((array)loadUrlJson($doc, $cache), (array)$value);
-				}
-			}
-			if(is_string($value->more)) {
-				$value = (object)array_merge((array)loadUrlJson($value->more, $cache), (array)$value);
-			}
-		}
+		$value = expandProject(expandNode($value, $cache), $cache);
 	}
 	return $orginal;
 }
