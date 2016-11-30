@@ -64,8 +64,8 @@ function loadUrlJson($url, $expireTime = EXPIRE_WEEK, $accept = "application/vnd
 	if (isset($header_arr["etag"])) {
 		$json->etag = $header_arr["etag"];
 	}
-	@mkdir("output");
-	@mkdir("output/cache");
+	is_dir("output") || mkdir("output");
+	is_dir("output/cache") || mkdir("output/cache");
 	file_put_contents("output/cache/$hash.json", json_encode($json));
 	return $json->payload;
 }
