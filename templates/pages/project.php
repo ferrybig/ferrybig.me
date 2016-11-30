@@ -34,6 +34,20 @@
 						</a>
 					</p>
 				<?PHP endif; ?>
+				<p class="project-time">
+					<?PHP if($project->updated_at): ?>
+						<small>
+							<time datetime="<?= htmlentities($project->updated_at) ?>">
+								Updated at: <?= htmlentities(gmdate('Y-m-d H:i:s', strtotime($project->updated_at))) ?>
+							</time>
+						</small>
+					<?PHP endif; ?>
+					<small>
+						<time datetime="<?= htmlentities($project->created_at) ?>">
+							Created at: <?= htmlentities(gmdate('Y-m-d H:i:s', strtotime($project->created_at))) ?>
+						</time>
+					</small>
+				</p>
 				<div>
 					<?PHP if (strlen($project->description_html) > 20) : ?>
 						<?= $project->description_html /* Should be left in raw mode */ ?>
