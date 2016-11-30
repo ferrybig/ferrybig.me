@@ -5,14 +5,14 @@
 		<li class="project media">
 			<?PHP if(isset($project->icons)): ?>
 				<div class="media-left">
-					<a href="<?= htmlentities($project->html_url) ?>">
+					<a href="<?= htmlentities("$project->slug.html") ?>">
 						<img class="media-object" src="<?= htmlentities($project->icons[0]->small) ?>" alt="" width="64" height="64">
 					</a>
 				</div>
 			<?PHP endif; ?>
 			<div class="media-body">
 				<h3 class="media-heading project-name" style="font-size: 130%">
-					<a href="<?= htmlentities($project->html_url) ?>"><?= htmlentities($project->nice_name) ?></a>
+					<a href="<?= htmlentities("$project->slug.html") ?>"><?= htmlentities($project->nice_name) ?></a>
 				</h3>
 				<?PHP if(isset($project->language)): ?>
 					<p class="project-tags">
