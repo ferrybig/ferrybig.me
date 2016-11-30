@@ -35,7 +35,19 @@
 					</p>
 				<?PHP endif; ?>
 				<div>
-					<?= $project->description_html /* Should be left in raw mode */ ?>
+					<?PHP if (strlen($project->description_html) > 20) : ?>
+						<?= $project->description_html /* Should be left in raw mode */ ?>
+					<?PHP else: ?>
+						<p>
+							<em>
+								No readme found for this project,
+								<a href="https://github.com/<?= htmlentities($project->full_name) ?>/new/master?readme=1">
+									Create one
+								</a>
+								if you know what this project contains
+							</em>
+						</p>
+					<?PHP endif; ?>
 				</div>
 				<!--
 				<h3>Download</h3>
