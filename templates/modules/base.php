@@ -4,11 +4,11 @@
 		<meta charset="utf-8"> 
 		<meta content="IE=edge" http-equiv="X-UA-Compatible"> 
 		<meta content="width=device-width,initial-scale=1" name="viewport"> 
-		<title><?= $title ?? $config["title"] ?></title>
+		<title><?= $title ?? $config->title ?></title>
 		<link href="<?= $base ?? "./" ?>css/bootstrap.min.css" rel="stylesheet">
 		<link href="<?= $base ?? "./" ?>css/bootstrap-theme.min.css" rel="stylesheet">
 		<link href="<?= $base ?? "./" ?>css/custom.css" rel="stylesheet">
-		<link rel="canonical" href="<?= $config['baseurl'] . $url ?>">
+		<link rel="canonical" href="<?= $config->baseurl . $url ?>">
 		<base target="<?= $target ?? "_self"?>">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 		<script src="<?= $base ?? "./" ?>js/bootstrap.min.js"></script>

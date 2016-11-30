@@ -1,9 +1,11 @@
 <?PHP
 
-$config = [
-	"baseurl" => "https://ferrybig.me",
-	"title" => "ferrybig.me",
-];
+if(file_exists(__DIR__ . "/config/config.json")) {
+	$config = json_decode(file_get_contents(__DIR__ . "/config/config.json"));
+} else {
+	fwrite(STDERR, "Fatal, `config.json` not found in templates/config/!\n");
+	exit(1);
+}
 
 ini_set('log_errors', 1);
 ini_set('display_errors', 0);
