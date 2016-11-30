@@ -8,7 +8,9 @@
 						<?= htmlentities(loadUrlJson($event->repo->url)->full_name) ?>
 					</a>
 				</h3>
-				<time datetime="<?= $event->created_at ?>"><?= $event->created_at ?></time>
+				<time datetime="<?= htmlentities($event->created_at) ?>">
+					<?= htmlentities(gmdate('Y-m-d H:i:s', strtotime($event->created_at))) ?>
+				</time>
 				<?PHP if ($event->type == "PushEvent"): ?>
 					<p class="commit-description">
 						<?PHP if (count($event->payload->commits) == 1): ?>
