@@ -84,5 +84,6 @@ if(error_get_last() == null) {
 	fwrite(STDERR, "Done!\n");
 } else {
 	fwrite(STDERR, "Done (with errors)!\n");
+	fwrite(STDERR, var_export(error_get_last(), true));
 	exit(1);
 }
