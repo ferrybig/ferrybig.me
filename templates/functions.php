@@ -135,7 +135,7 @@ function copy_dir($src, $dst) {
 
 function recurse_copy($src, $dst) {
 	$dir = opendir($src);
-	@mkdir($dst);
+	is_dir($dst) || mkdir($dst);
 	while (false !== ( $file = readdir($dir))) {
 		if (( $file != '.' ) && ( $file != '..' )) {
 			if (is_dir($src . '/' . $file)) {

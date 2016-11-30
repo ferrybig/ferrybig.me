@@ -37,8 +37,8 @@ foreach ($pos_args as $action) {
 	switch ($action) {
 		case "build":
 			fwrite(STDERR, "Starting build...\n");
-			@mkdir("output");
-			@mkdir("output/site");
+			is_dir("output") || mkdir("output");
+			is_dir("output/site") || mkdir("output/site");
 
 			fwrite(STDERR, "Loading projects...\n");
 			if(file_exists(__DIR__ . "/config/projects.json")):
@@ -79,4 +79,10 @@ foreach ($pos_args as $action) {
 	}
 }
 
-fwrite(STDERR, "Done!\n");
+
+if(error_get_last() == null) {
+	fwrite(STDERR, "Done!\n");
+} else {
+	fwrite(STDERR, "Done (with errors)!\n");
+	exit(1);
+}
