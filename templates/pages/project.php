@@ -75,14 +75,14 @@
 					<li>4 more... </li>
 				</ol>
 				-->
-				<?PHP if(!empty($projct->icons)): ?>
+				<?PHP if(!empty($project->icons)): ?>
 					<h3>Images</h2>
 					<div class="row">
-						<?PHP foreach ($projct->icons as $icon) : ?>
+						<?PHP foreach ($project->icons as $icon) : ?>
 							<div class="col-sm-6 col-md-3">
-								<a href="<?= htmlentities($icon["normal"]) ?>" class="thumbnail">
-									<img src="<?= htmlentities($icon["big"]) ?>"
-										alt="<?= htmlentities($icon["title"] ?? "") ?>" width="256" height="256">
+								<a href="<?= htmlentities($icon->normal) ?>" class="thumbnail">
+									<img src="<?= htmlentities($icon->big) ?>"
+										alt="<?= htmlentities($icon->title ?? "") ?>" width="256" height="256">
 								</a>
 							</div>
 						<?PHP endforeach; ?>
