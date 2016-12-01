@@ -61,7 +61,7 @@ foreach ($pos_args as $action) {
 			
 			fwrite(STDERR, "Generate dynamic pages...\n");
 			foreach($projects as $project) {
-				includeToFile("pages/project.php", "output/site/projects/$project->slug.html", ["project" => $project]);
+				includeToFile("pages/project.php", "output/site/projects/$project->slug.html", ["project" => $project, "projects" => $projects]);
 			}
 			break;
 		case "projects":

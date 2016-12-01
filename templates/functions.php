@@ -260,3 +260,28 @@ function useExpandSystem(Array $orginal, $cache = EXPIRE_WEEK) {
 function str_max_length($str, $length) {
 	return $str; // TODO
 }
+function get_project_language_array($project) {
+	if(empty($project->language)) {
+		return [];
+	}
+	if(is_string($project->language)) {
+		return [$project->language];
+	}
+	return $project->language;
+}
+function compare_projects($a, $b) {
+	$taga = get_project_language_array($a);
+	$tagb = get_project_language_array($b);
+	$points = count(array_diff($taga, $tagb)) + count(array_diff($tagb, $taga));
+	if($points == 0) {
+		$points = levenshtein ($a->nice_name, $b->nice_name);
+	} else {
+		$points = $points * 200;
+	}
+	return $points;
+}
+function compare_project_sort_callback($base) {
+	return function($a, $b) use ($base) {
+		return compare_projects($base, $a) <=> compare_projects($base, $b);
+	};
+}

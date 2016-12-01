@@ -1,4 +1,4 @@
-<li class="project media">
+<<?=$tag ?? "li"?> class="project media">
 	<?PHP if(isset($project->icons)): ?>
 		<div class="media-left">
 			<a href="<?= htmlentities("projects/$project->slug.html") ?>">
@@ -38,4 +38,4 @@
 			<?= htmlentities(str_max_length($project->description, 255)) ?>
 		</p>
 	</div>
-</li>
+</<?=$tag ?? "li"?>>

@@ -88,6 +88,15 @@
 						<?PHP endforeach; ?>
 					</div>
 				<?PHP endif; ?>
+				<h3>Related projects</h3>
+				<div>
+					<?PHP $projects_related = $projects; ?>
+					<?PHP unset($projects_related[array_search ($project, $projects_related)]); ?>
+					<?PHP usort($projects_related, compare_project_sort_callback($project)); ?>
+					<?PHP $projects_related = limit($projects_related, 4); ?> 
+					<?= include_advanced(__DIR__ . "/../modules/projects_list.php", 
+						["projects" => $projects_related]) ?>
+				</div>
 			</div>
 		</div>
 	</div>
