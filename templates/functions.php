@@ -181,23 +181,23 @@ function extend_body() {
 }
 
 function includeToFile($php, $to, Array $vars = []) {
-	global $extend_depth, $config;
+	global $extend_depth;
 	$file = fopen($to, "w");
 	fwrite(STDERR, "Writing $php to $to\n");
 	ob_start(function($contents) use ($file) {
 		fwrite($file, $contents);
 	});
-	if(!empty($vars));
-		extract($vars);
-	include $php;
+	include_advanced($php, $vars);
 	for (; $extend_depth > 0; $extend_depth--) {
 		ob_end_flush();
 	}
 	ob_end_flush();
 }
 
-function dumpToFile($function, $to) {
-	
+function include_advanced($php, Array $vars = []) {
+	global $config;
+	extract($vars);
+	include $php;
 }
 
 // Based on an edit of http://stackoverflow.com/a/3022234/1542723
