@@ -18,7 +18,12 @@
 		<body class="main_body">
 			<div class="page-top-wrapper hidden-print">
 				<nav class="navbar navbar-default">
-					<div class="container-fluid">
+					<div class="container visible-sm-block visible-md-block visible-lg-block">
+						<div class="page-header page-brand">
+							<h1>Ferrybig.me <small>The personal website of Fernando&nbsp;van&nbsp;Loenhout</small></h1>
+						</div>
+					</div>
+					<div class="container">
 						<!-- Brand and toggle get grouped for better mobile display -->
 						<div class="navbar-header">
 							<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -27,12 +32,12 @@
 								<span class="icon-bar"></span>
 								<span class="icon-bar"></span>
 							</button>
-							<a class="navbar-brand" href="#">Ferrybig.me</a>
+							<a class="navbar-brand visible-xs-block" href="#">Ferrybig.me</a>
 						</div>
 	
 						<!-- Collect the nav links, forms, and other content for toggling -->
 						<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-							<ul class="nav navbar-nav">
+							<ul class="nav navbar-nav nav-tabs">
 								<li class="<?= $page == "index" ? "active" : "" ?>"><a href="<?= $base ?? "./" ?>">Home</a></li>
 								<li class="<?= $page == "about" ? "active" : "" ?>"><a href="<?= $base ?? "./" ?>about.html">About me <span class="sr-only">(current)</span></a></li>
 								<li class="<?= $page == "projects" ? "active" : "" ?>"><a href="<?= $base ?? "./" ?>projects/">Projects</a></li>
@@ -43,9 +48,17 @@
 				</nav>
 			</div>
 			<div class="container">
-				<div class="page-header hidden-print">
-					<h1>Ferrybig.me <small>The personal website of Fernando&nbsp;van&nbsp;Loenhout</small></h1>
-				</div>
+				<?PHP if(isset($pages)) : ?>
+					<ol class="breadcrumb">
+						<?PHP foreach($pages as $breadcrumb) : ?>
+							<?PHP if(is_array($breadcrumb)) : ?>
+								<li><a href="<?= htmlentities(($base ?? "") . $breadcrumb[0]) ?>"><?= htmlentities($breadcrumb[1]) ?></a></li>
+							<?PHP else: ?>
+								<li class="active"><?= htmlentities($breadcrumb) ?></li>
+							<?PHP endif; ?>
+						<?PHP endforeach; ?>
+					</ol>
+				<?PHP endif; ?>
 				<?PHP extend_body() ?>
 			</div>
 		</body>
