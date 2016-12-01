@@ -1,4 +1,9 @@
-<?= extend(__DIR__ . "/../modules/base.php", ['url' => "projects/$project->slug.html", "page" => "projects", "base" => "../"]); ?>
+<?= extend(__DIR__ . "/../modules/base.php", [
+	"url" => "projects/$project->slug.html",
+	"page" => "projects",
+	"base" => "../",
+	"pages" => [["", "Home"], ["projects/", "Projects"], $project->nice_name ?? $project->name]
+]); ?>
 <?PHP $base = "../"; ?>
 <div class="row">
 	<div class="col-md-8">
