@@ -5,7 +5,7 @@
 		<li class="project media">
 			<?PHP if(isset($project->icons)): ?>
 				<div class="media-left">
-					<a href="<?= htmlentities("$project->slug.html") ?>">
+					<a href="<?= htmlentities("projects/$project->slug.html") ?>">
 						<img class="media-object" src="<?= htmlentities($project->icons[0]->small) ?>" alt="" width="64" height="64">
 					</a>
 				</div>
