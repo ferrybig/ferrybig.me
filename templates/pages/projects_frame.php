@@ -19,7 +19,7 @@
 						<small>
 							<?PHP if(is_array($project->language)): ?>
 								<?PHP foreach($project->language as $language) : ?>
-							<span class="label language-tag language-tag-<?= htmlentities(strtolower($language)) ?>">
+									<span class="label language-tag language-tag-<?= htmlentities(strtolower($language)) ?>">
 										<?= htmlentities($language) ?>
 									</span>
 								<?PHP endforeach; ?>
