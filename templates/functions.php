@@ -273,11 +273,7 @@ function compare_projects($a, $b) {
 	$taga = get_project_language_array($a);
 	$tagb = get_project_language_array($b);
 	$points = count(array_diff($taga, $tagb)) + count(array_diff($tagb, $taga));
-	if($points == 0) {
-		$points = levenshtein ($a->nice_name, $b->nice_name);
-	} else {
-		$points = $points * 200;
-	}
+	$points += levenshtein ($a->nice_name, $b->nice_name);
 	return $points;
 }
 function compare_project_sort_callback($base) {
