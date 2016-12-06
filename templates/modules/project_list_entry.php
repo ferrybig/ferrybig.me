@@ -8,7 +8,7 @@
 	<?PHP endif; ?>
 	<div class="media-body">
 		<h3 class="media-heading project-name" style="font-size: 130%">
-			<a href="<?= htmlentities("$project->slug.html") ?>"><?= htmlentities($project->nice_name) ?></a>
+			<a href="<?= htmlentities(($base ?? "") . "projects/$project->slug.html") ?>"><?= htmlentities($project->nice_name) ?></a>
 		</h3>
 		<?PHP if(isset($project->language)): ?>
 			<p class="project-tags">

@@ -95,7 +95,7 @@
 					<?PHP usort($projects_related, compare_project_sort_callback($project)); ?>
 					<?PHP $projects_related = limit($projects_related, 4); ?> 
 					<?= include_advanced(__DIR__ . "/../modules/projects_list.php", 
-						["projects" => $projects_related]) ?>
+						["projects" => $projects_related, "base" => "../"]) ?>
 				</div>
 			</div>
 		</div>
