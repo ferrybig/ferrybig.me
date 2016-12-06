@@ -88,8 +88,8 @@
 						<?PHP endforeach; ?>
 					</div>
 				<?PHP endif; ?>
-				<h3>Related projects</h3>
-				<div>
+				<div class="project-related">
+					<h3>Related projects</h3>
 					<?PHP $projects_related = $projects; ?>
 					<?PHP unset($projects_related[array_search ($project, $projects_related)]); ?>
 					<?PHP usort($projects_related, compare_project_sort_callback($project)); ?>

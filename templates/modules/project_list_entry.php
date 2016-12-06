@@ -1,4 +1,4 @@
-<<?=$tag ?? "li"?> class="project media">
+<<?=$tag ?? "li"?> class="project project-small media">
 	<?PHP if(isset($project->icons)): ?>
 		<div class="media-left">
 			<a href="<?= htmlentities("projects/$project->slug.html") ?>">
@@ -7,9 +7,9 @@
 		</div>
 	<?PHP endif; ?>
 	<div class="media-body">
-		<h3 class="media-heading project-name" style="font-size: 130%">
+		<<?= $project_list_header ?? "h3" ?> class="media-heading project-name" style="font-size: 130%">
 			<a href="<?= htmlentities(($base ?? "") . "projects/$project->slug.html") ?>"><?= htmlentities($project->nice_name) ?></a>
-		</h3>
+		</<?= $project_list_header ?? "h3" ?>>
 		<?PHP if(isset($project->language)): ?>
 			<p class="project-tags">
 				<small>

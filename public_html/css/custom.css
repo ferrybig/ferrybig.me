@@ -170,9 +170,20 @@ body.main_body {
 .project .project-description {
 	margin-bottom: 0;
 }
-.project.project-full-page .project-tags {
+.project .project-related > h3 {
+	margin-top: 4em;
+}
+.project.project-full-page > .panel-body > .project-tags {
 	margin-bottom: 0.25em;
 }
+.project.project-small .project-tags {
+	display: inline-block;
+	float: right;
+}
+.project.project-small .project-name {
+	display: inline-block;
+}
+
 .markdown-body h1,
 .markdown-body h2,
 .markdown-body h3,
