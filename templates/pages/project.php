@@ -9,7 +9,7 @@
 	<div class="col-md-8">
 		<div class="panel panel-default project project-full-page">
 			<div class="panel-heading">
-				<h2><?= htmlentities($project->nice_name ?? $project->name) ?></h2>
+				<h2 class="panel-title panel-title-lg"><?= htmlentities($project->nice_name ?? $project->name) ?></h2>
 			</div>
 			<div class="panel-body">
 				<?PHP if(isset($project->language)): ?>

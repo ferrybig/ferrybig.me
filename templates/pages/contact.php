@@ -3,7 +3,7 @@
 	<div class="col-md-8">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h2>Contacts</h2>
+				<h2 class="panel-title panel-title-lg">Contacts</h2>
 			</div>
 			<div class="panel-body">
 				<p>

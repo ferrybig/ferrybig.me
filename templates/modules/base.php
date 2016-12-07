@@ -6,7 +6,7 @@
 		<meta content="width=device-width,initial-scale=1" name="viewport"> 
 		<title><?= $title ?? $config->title ?></title>
 		<link href="<?= $base ?? "./" ?>css/bootstrap.min.css" rel="stylesheet">
-		<link href="<?= $base ?? "./" ?>css/bootstrap-theme.min.css" rel="stylesheet">
+		<!--<link href="<?= $base ?? "./" ?>css/bootstrap-theme.min.css" rel="stylesheet">-->
 		<link href="<?= $base ?? "./" ?>css/custom.css" rel="stylesheet">
 		<link rel="canonical" href="<?= $config->baseurl . $url ?>">
 		<base target="<?= $target ?? "_self"?>">

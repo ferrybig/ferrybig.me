@@ -1,6 +1,6 @@
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<h2>
+		<h2 class="panel-title panel-title-lg">
 			<a href="//github.com/ferrybig">Recent contributions</a>
 		</h2>
 	</div>

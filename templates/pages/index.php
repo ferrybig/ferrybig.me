@@ -3,7 +3,7 @@
 	<div class="col-md-4">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h2>About me</h2>
+				<h2 class="panel-title panel-title-lg">About me</h2>
 			</div>
 			<div class="panel-body">
 				<div class="thumbnail">
