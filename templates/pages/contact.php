@@ -6,7 +6,12 @@
 				<h2>Contacts</h2>
 			</div>
 			<div class="panel-body">
-				This page is unsuported at this time... Check again soon...
+				<p>
+					If you have any questions, you could mail me on 
+					<a href="mailto:mailmehere@ferrybig.me">mailmehere@ferrybig.me</a>
+					(Mail is subjected to change if it attracts to many spam,
+						if I reply, you will get my orginal mail address)
+				</p>
 			</div>
 		</div>
 	</div>
