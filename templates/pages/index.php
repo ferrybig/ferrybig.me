@@ -20,7 +20,7 @@
 							<td><time datetime="1995-11-19">19 november 1995</time></td>
 						</tr>
 						<tr>
-							<th>Sex</th>
+							<th>Gender</th>
 							<td>Male</td>
 						</tr>
 					</table>
