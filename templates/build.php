@@ -76,6 +76,40 @@ foreach ($pos_args as $action) {
 			}
 			echo "[\n\t".implode(",\n\t", $projects) . "\n]\n";
 			break;
+		case "clean":
+			if(is_dir("output/cache")) {
+				$files = glob('output/cache/*.json', GLOB_BRACE);
+				foreach ($files as $file) {
+					unlink($file);
+				}
+			}
+			echo "Dropped cache\n";
+			break;
+		case "gc":
+			$expired = 0;
+			$total = 0;
+			$cleaned = 0;
+			$correct = 0;
+			$files = glob('output/cache/*.json', GLOB_BRACE);
+			$time = time();
+			foreach ($files as $file) {
+				$json = json_decode(file_get_contents($file));
+				$total++;
+				if ($json->expires > $time) {
+					$correct++;
+				} else if ($json->expires + EXPIRE_WEEK > $time) {
+					$expired++;
+				} else {
+					$cleaned++;
+					unlink($file);
+				}
+			}
+			echo "Total: $total\n";
+			echo "Correct: $correct\n";
+			echo "Expired: $expired\n";
+			echo "Cleaned: $cleaned\n";
+			echo "Checked cache!\n";
+			break;
 	}
 }
 
