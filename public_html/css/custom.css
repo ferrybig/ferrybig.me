@@ -230,3 +230,11 @@ body.main_body {
 .panel-title-lg {
 	font-size: 190%;
 }
+.nav.navbar-nav .active a,
+.nav.navbar-nav .active a:hover {
+	border-bottom-color: #e7e7e7;
+	border-radius: 4px;
+}
+.nav.navbar-nav li:hover a {
+	border-radius: 4px;
+}
