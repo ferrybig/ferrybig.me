@@ -152,46 +152,42 @@ $extend_depth = 0;
 $extend_array = [];
 
 function extend($other, $passedArgs = NULL) {
-	global $extend_depth, $extend_array, $config;
-	$extend_depth++;
+	global $EXPAND, $config;
+	if(!$EXPAND) {
+		$EXPAND = [];
+		$EXPAND["start"] = "";
+		$EXPAND["end"] = "";
+	}
 	if (is_array($passedArgs)) {
 		extract($passedArgs);
 	}
 	ob_start();
 	include $other;
-	$end = ob_get_clean();
-	$start = isset($extend_array[$extend_depth]) ? $extend_array[$extend_depth] : $end;
-	unset($extend_array[$extend_depth]);
-	$page_decorator = function ($contents, $phase) use ($start, $end) {
-		if ($phase & PHP_OUTPUT_HANDLER_START) {
-			$contents = $start . $contents;
-		}
-		if ($phase & PHP_OUTPUT_HANDLER_END) {
-			$contents = $contents . $end;
-		}
-		return $contents;
-	};
-	ob_start($page_decorator, 1024 * 8);
+	$EXPAND["end"] = ob_get_clean() . $EXPAND["end"];
+	
 }
 
 function extend_body() {
-	global $extend_depth, $extend_array;
-	$extend_array[$extend_depth] = ob_get_contents();
+	global $EXPAND;
+	$EXPAND["start"].= ob_get_contents();
 	ob_clean();
 }
 
 function includeToFile($php, $to, Array $vars = []) {
-	global $extend_depth;
+	global $EXPAND, $config;
 	$file = fopen($to, "w");
 	fwrite(STDERR, "Writing $php to $to\n");
-	ob_start(function($contents) use ($file) {
-		fwrite($file, $contents);
-	});
+	ob_start();
 	include_advanced($php, $vars);
-	for (; $extend_depth > 0; $extend_depth--) {
-		ob_end_flush();
+	$data = ob_get_clean();
+	if($EXPAND) {
+		$data = $EXPAND["start"] . $data . $EXPAND["end"];
 	}
-	ob_end_flush();
+	$EXPAND = false;
+	$data = preg_replace('~(\s)+~', '\1', $data);
+	$data = preg_replace('~>\s<~', '><', $data);
+	fwrite($file, $data);
+	fclose($file);
 }
 
 function include_advanced($php, Array $vars = []) {
