@@ -184,8 +184,30 @@ function includeToFile($php, $to, Array $vars = []) {
 		$data = $EXPAND["start"] . $data . $EXPAND["end"];
 	}
 	$EXPAND = false;
-	$data = preg_replace('~(\s)+~', '\1', $data);
+	$data = preg_replace('~(\s)+~', ' ', $data);
 	$data = preg_replace('~>\s<~', '><', $data);
+	$splitted = preg_split('~(<(?:/|!|)(?:[a-zA-Z0-9-]*))~', $data, -1, PREG_SPLIT_DELIM_CAPTURE);
+	$data = "";
+	$size = count($splitted);
+	$line = 0;
+	for($i = 0; $i < $size; $i += 2) {
+		$force = false;
+		$tag = "";
+		if($i + 1 < $size) {
+			$tag = $splitted[$i + 1];
+		}
+		$newlength = strlen($splitted[$i]) + strlen($tag);
+		if($line != 0 && ($line + $newlength > 120 || $force)) {
+			$data .= "\n";
+			$splitted[$i] = trim($splitted[$i]);
+			$line = 0;
+		}
+		$data .= $splitted[$i];
+		$data .= $tag;
+		$line += $newlength;
+	}
+	$data = preg_replace('~(<!doctype [a-z0-9]*>)~i', "\\0\n", $data, 1);
+	$data .= "\n";
 	fwrite($file, $data);
 	fclose($file);
 }
