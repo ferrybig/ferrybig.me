@@ -1,4 +1,8 @@
-<?= extend(__DIR__ . "/../modules/base.php", ['url' => "contact.html", "page" => "contact"]); ?>
+<?= extend(__DIR__ . "/../modules/base.php", [
+	'url' => "contact.html", 
+	"page" => "contact",
+	"pages" => [["./", "Home"], "Contact"],
+]); ?>
 <div class="row">
 	<div class="col-md-8">
 		<div class="panel panel-default">

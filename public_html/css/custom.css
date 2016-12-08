@@ -238,3 +238,6 @@ body.main_body {
 .nav.navbar-nav li:hover a {
 	border-radius: 4px;
 }
+.breadcrumb {
+	border-width: 0;
+}
