@@ -199,7 +199,7 @@ function includeToFile($php, $to, Array $vars = []) {
 		$newlength = strlen($splitted[$i]) + strlen($tag);
 		if($line != 0 && ($line + $newlength > 120 || $force)) {
 			$data .= "\n";
-			$splitted[$i] = trim($splitted[$i]);
+			$splitted[$i] = ltrim($splitted[$i]);
 			$line = 0;
 		}
 		$data .= $splitted[$i];
