@@ -17,7 +17,8 @@ curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($curl, CURLOPT_HEADER, 1);
 curl_setopt($curl, CURLOPT_FILETIME, true);
 // Used for github rate limiting
-curl_setopt($curl, CURLOPT_USERPWD, "$config->username:$config->password");
+if(isset($config->username))
+	curl_setopt($curl, CURLOPT_USERPWD, "$config->username:$config->password");
 
 define("EXPIRE_HOUR", 60 * 60);
 define("EXPIRE_DAY", 24 * 60 * 60);
