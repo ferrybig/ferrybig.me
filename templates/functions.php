@@ -127,8 +127,7 @@ function filter_git_events(Array $events) {
 }
 
 function copy_dir($src, $dst) {
-	exec("rsync -a " .  escapeshellarg($src) . " " . escapeshellarg($dst), $output, $rtn);
-	fwrite(STDERR, implode("\n", $output));
+	passthru("rsync -a " .  escapeshellarg($src) . " " . escapeshellarg($dst), $rtn);
 	if($rtn != 0) // bad exit status
 		recurse_copy($src, $dst);
 }
@@ -146,6 +145,23 @@ function recurse_copy($src, $dst) {
 		}
 	}
 	closedir($dir);
+}
+
+function rrmdir($src) {
+    $dir = opendir($src);
+    while(false !== ( $file = readdir($dir)) ) {
+        if (( $file != '.' ) && ( $file != '..' )) {
+            $full = $src . '/' . $file;
+            if ( is_dir($full) ) {
+                rrmdir($full);
+            }
+            else {
+                unlink($full);
+            }
+        }
+    }
+    closedir($dir);
+    rmdir($src);
 }
 
 $extend_depth = 0;
@@ -298,4 +314,56 @@ function compare_project_sort_callback($base) {
 	return function($a, $b) use ($base) {
 		return compare_projects($base, $a) <=> compare_projects($base, $b);
 	};
+}
+function tryCheckout(stdClass $project) {
+	if (!isset($project->checkout) || !isset($project->clone_url) || !isset($project->pushed_at) || !isset($project->slug))
+		return;
+	is_dir ("output/checkout") || mkdir("output/checkout");
+	$resultingPath = "output/checkout/" . $project->slug;
+	$requiresClone = true;
+	$hasupdated = false;
+	if (is_dir($resultingPath)) {
+		if (str_replace("+00:00", "Z", date(DATE_ATOM, filemtime($resultingPath))) > $project->pushed_at) {
+			echo "No update needed for $project->slug!\n";
+			$requiresClone = false;
+		} else {
+			$exitcode;
+			passthru ("git -C " . escapeshellarg($resultingPath) . " pull", $exitcode);
+			if($exitcode) {
+				echo "Error updating $project->slug!\n";
+				rrmdir($resultingPath);
+			} else {
+				$requiresClone = false;
+				$hasupdated = true;
+			}
+		}
+	}
+	if ($requiresClone) {
+		echo "Cloning $project->slug!\n";
+		$exitcode;
+		passthru ("git clone " . escapeshellarg($project->clone_url) . " " . escapeshellarg($resultingPath), $exitcode);
+		if ($exitcode) {
+			trigger_error("Problem cloning $project->slug!", E_USER_WARNING);
+		} else {
+			$requiresClone = false;
+			$hasupdated = true;
+		}
+	}
+	if (!$requiresClone) {
+		if (!empty($project->checkout_script)) {
+			passthru ($project->checkout_script);
+		}
+		if ($hasupdated) {
+			$src = realpath(realpath($resultingPath) . "/" . ($project->checkout_subdir ?? "")) . "/";
+			if(!is_dir($src)) {
+				trigger_error("Problem moving $src (Not a valid directory)", E_USER_WARNING);
+				return;
+			}
+			$dst = "output/site/projects/$project->slug";
+			if(!is_dir($dst)) 
+				mkdir($dst);
+			copy_dir($src, $dst);
+		}
+		$project->homepage = "projects/$project->slug";
+	}
 }

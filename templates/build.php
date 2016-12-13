@@ -60,10 +60,16 @@ foreach ($pos_args as $action) {
 			includeToFile("pages/projects_frame.php", "output/site/projects_frame.html", ["projects" => $projects]);
 			includeToFile("pages/projects_index.php", "output/site/projects/index.html", ["projects" => $projects]);
 			
+			fwrite(STDERR, "Checking out dynamic projects...\n");
+			foreach($projects as $project) {
+				tryCheckout($project);
+			}
+			
 			fwrite(STDERR, "Generate dynamic pages...\n");
 			foreach($projects as $project) {
 				includeToFile("pages/project.php", "output/site/projects/$project->slug.html", ["project" => $project, "projects" => $projects]);
 			}
+
 			break;
 		case "projects":
 			//TODO: Change this number in the future... (or use proper paging system...)
