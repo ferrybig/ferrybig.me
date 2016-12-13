@@ -354,16 +354,17 @@ function tryCheckout(stdClass $project) {
 			passthru ($project->checkout_script);
 		}
 		if ($hasupdated) {
+			touch($resultingPath);
 			$src = realpath(realpath($resultingPath) . "/" . ($project->checkout_subdir ?? "")) . "/";
 			if(!is_dir($src)) {
 				trigger_error("Problem moving $src (Not a valid directory)", E_USER_WARNING);
 				return;
 			}
-			$dst = "output/site/projects/$project->slug";
+			$dst = "output/site/projects/$project->checkout";
 			if(!is_dir($dst)) 
 				mkdir($dst);
 			copy_dir($src, $dst);
 		}
-		$project->homepage = "projects/$project->slug";
+		$project->homepage = "projects/$project->checkout";
 	}
 }
