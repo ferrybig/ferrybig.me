@@ -39,6 +39,13 @@
 						</a>
 					</p>
 				<?PHP endif; ?>
+				<?PHP if($project->homepage): ?>
+					<p>
+						<a href="../<?= htmlentities($project->homepage) ?>" class="btn btn-sm btn-primary">
+							View project
+						</a>
+					</p>
+				<?PHP endif; ?>
 				<p class="project-time">
 					<?PHP if($project->updated_at): ?>
 						<small>

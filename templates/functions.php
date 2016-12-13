@@ -365,6 +365,6 @@ function tryCheckout(stdClass $project) {
 				mkdir($dst);
 			copy_dir($src, $dst);
 		}
-		$project->homepage = "projects/$project->checkout";
+		$project->homepage = "projects/" . str_replace("+", "%20", urlencode($project->checkout));
 	}
 }
