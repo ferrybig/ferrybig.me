@@ -10,7 +10,7 @@
 	<div class="col-md-8">
 		<div class="panel panel-default project project-full-page">
 			<div class="panel-heading">
-				<h2 class="panel-title panel-title-lg"><?= htmlentities($project->nice_name ?? $project->name) ?></h2>
+				<h2 class="panel-title panel-title-lg" property="http://purl.org/dc/terms/title"><?= htmlentities($project->nice_name ?? $project->name) ?></h2>
 			</div>
 			<div class="panel-body">
 				<?PHP if(isset($project->language)): ?>
@@ -56,7 +56,7 @@
 						</small>
 					<?PHP endif; ?>
 					<small>
-						<time datetime="<?= htmlentities($project->created_at) ?>">
+						<time datetime="<?= htmlentities($project->created_at) ?>" property="http://purl.org/dc/terms/created">
 							Created at: <?= htmlentities(gmdate('Y-m-d H:i:s', strtotime($project->created_at))) ?>
 						</time>
 					</small>

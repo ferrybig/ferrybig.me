@@ -1,14 +1,16 @@
-<<?=$tag ?? "li"?> class="project project-small media">
+<<?=$tag ?? "li"?> class="project project-small media" resource="<?= htmlentities(($base ?? "") ."projects/$project->slug.html") ?>">
 	<?PHP if(isset($project->icons)): ?>
 		<div class="media-left">
-			<a href="<?= htmlentities("projects/$project->slug.html") ?>">
+			<a href="<?= htmlentities(($base ?? "") ."projects/$project->slug.html") ?>">
 				<img class="media-object" src="<?= htmlentities($project->icons[0]->small) ?>" alt="" width="64" height="64">
 			</a>
 		</div>
 	<?PHP endif; ?>
 	<div class="media-body">
 		<<?= $project_list_header ?? "h3" ?> class="media-heading project-name" style="font-size: 130%">
-			<a href="<?= htmlentities(($base ?? "") . "projects/$project->slug.html") ?>"><?= htmlentities($project->nice_name) ?></a>
+			<a href="<?= htmlentities(($base ?? "") . "projects/$project->slug.html") ?>" property="http://purl.org/dc/terms/title">
+				<?= htmlentities($project->nice_name) ?>
+			</a>
 		</<?= $project_list_header ?? "h3" ?>>
 		<?PHP if(isset($project->language)): ?>
 			<p class="project-tags">

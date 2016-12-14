@@ -7,7 +7,7 @@
 	<div class="col-md-8">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h2 class="panel-title panel-title-lg">Contact</h2>
+				<h2 class="panel-title panel-title-lg" property="http://purl.org/dc/terms/title">Contact</h2>
 			</div>
 			<div class="panel-body">
 				<p>
