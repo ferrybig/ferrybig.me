@@ -3,7 +3,7 @@
 	"page" => "projects",
 	"base" => "../",
 	"image" => $project->icons[0]->big ?? "",
-	"pages" => [["", "Home"], ["projects/", "Projects"], $project->nice_name ?? $project->name]
+	"pages" => [["projects/", "Projects"], $project->nice_name ?? $project->name]
 ]); ?>
 <?PHP $base = "../"; ?>
 <div class="row">

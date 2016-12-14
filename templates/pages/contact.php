@@ -1,7 +1,7 @@
 <?= extend(__DIR__ . "/../modules/base.php", [
 	'url' => "contact.html", 
 	"page" => "contact",
-	"pages" => [["./", "Home"], "Contact"],
+	"pages" => ["Contact"],
 ]); ?>
 <div class="row">
 	<div class="col-md-8">
