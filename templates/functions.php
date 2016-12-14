@@ -59,7 +59,7 @@ function loadUrlJson($url, $expireTime = EXPIRE_WEEK, $accept = "application/vnd
 	}
 	$json = new stdClass();
 	$json->payload = $raw ? $body : json_decode($body);
-	$json->expires = time() + max($expireTime, isset($header_arr["x-poll-interval"]) ? $header_arr["x-poll-interval"] : 0);
+	$json->expires = time() + max($expireTime, isset($header_arr["x-poll-interval"]) ? $header_arr["x-poll-interval"] : 0) + random_int (-10,10);
 	$json->url = $url;
 	if (isset($header_arr["etag"])) {
 		$json->etag = $header_arr["etag"];
