@@ -194,43 +194,47 @@ function includeToFile($php, $to, Array $vars = []) {
 	$file = fopen($to, "w");
 	fwrite(STDERR, "Writing $php to $to\n");
 	ob_start();
+	$data_format = "html";
+	$vars["data_format"] = &$data_format;
 	include_advanced($php, $vars);
 	$data = ob_get_clean();
 	if($EXPAND) {
 		$data = $EXPAND["start"] . $data . $EXPAND["end"];
 	}
 	$EXPAND = false;
-	$data = preg_replace('~(\s)+~', ' ', $data);
-	$data = preg_replace('~>\s<~', '><', $data);
-	$splitted = preg_split('~(<(?:/|!|)(?:[a-zA-Z0-9-]*))~', $data, -1, PREG_SPLIT_DELIM_CAPTURE);
-	$data = "";
-	$size = count($splitted);
-	$line = 0;
-	for($i = 0; $i < $size; $i += 2) {
-		$force = false;
-		$tag = "";
-		if($i + 1 < $size) {
-			$tag = $splitted[$i + 1];
+	if($data_format == "html") {
+		$data = preg_replace('~(\s)+~', ' ', $data);
+		$data = preg_replace('~>\s<~', '><', $data);
+		$splitted = preg_split('~(<(?:/|!|)(?:[a-zA-Z0-9-]*))~', $data, -1, PREG_SPLIT_DELIM_CAPTURE);
+		$data = "";
+		$size = count($splitted);
+		$line = 0;
+		for($i = 0; $i < $size; $i += 2) {
+			$force = false;
+			$tag = "";
+			if($i + 1 < $size) {
+				$tag = $splitted[$i + 1];
+			}
+			$newlength = strlen($splitted[$i]) + strlen($tag);
+			if($line != 0 && ($line + $newlength > 120 || $force)) {
+				$data .= "\n";
+				$splitted[$i] = ltrim($splitted[$i]);
+				$line = 0;
+			}
+			$data .= $splitted[$i];
+			$data .= $tag;
+			$line += $newlength;
 		}
-		$newlength = strlen($splitted[$i]) + strlen($tag);
-		if($line != 0 && ($line + $newlength > 120 || $force)) {
-			$data .= "\n";
-			$splitted[$i] = ltrim($splitted[$i]);
-			$line = 0;
-		}
-		$data .= $splitted[$i];
-		$data .= $tag;
-		$line += $newlength;
+		$data = preg_replace('~(<!doctype [a-z0-9]*>)~i', "\\0\n", $data, 1);
+		$data .= "\n";
 	}
-	$data = preg_replace('~(<!doctype [a-z0-9]*>)~i', "\\0\n", $data, 1);
-	$data .= "\n";
 	fwrite($file, $data);
 	fclose($file);
 }
 
 function include_advanced($php, Array $vars = []) {
 	global $config;
-	extract($vars);
+	extract($vars, EXTR_REFS);
 	include $php;
 }
 
@@ -367,4 +371,16 @@ function tryCheckout(stdClass $project) {
 		}
 		$project->homepage = "projects/" . str_replace("+", "%20", urlencode($project->checkout));
 	}
+}
+
+$sitemap = [];
+
+function includeToSitemap($url) {
+	global $sitemap;
+	$sitemap[] = $url;
+	return $url;
+}
+function getSiteMap() {
+	global $sitemap;
+	return $sitemap;
 }

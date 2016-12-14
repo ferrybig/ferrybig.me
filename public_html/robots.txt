@@ -2,7 +2,8 @@
 # |_____| |______ |      |      |     |      |_____/ |     | |_____] |     |    |   
 # |     | |______ |_____ |_____ |_____|      |    \_ |_____| |_____] |_____|    |   
 
-# This site is not done yet
+Sitemap: https://ferrybig.me/sitemap.xml
+
 User-agent: *
 Disallow: /bottrap-7682638294/
 Disallow: /git/

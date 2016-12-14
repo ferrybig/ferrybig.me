@@ -70,6 +70,10 @@ foreach ($pos_args as $action) {
 				includeToFile("pages/project.php", "output/site/projects/$project->slug.html", ["project" => $project, "projects" => $projects]);
 			}
 
+			fwrite(STDERR, "Generating sitemaps...\n");
+			includeToFile("pages/sitemap.php", "output/site/sitemap.xml", ["sitemap" => getSiteMap(), "type" => "xml"]);
+			includeToFile("pages/sitemap.php", "output/site/sitemap.txt", ["sitemap" => getSiteMap(), "type" => "txt"]);
+
 			break;
 		case "projects":
 			//TODO: Change this number in the future... (or use proper paging system...)

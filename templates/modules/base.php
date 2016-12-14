@@ -7,13 +7,13 @@
 		<title><?= htmlentities($real_title = (isset($title) ? $title . " - " : (isset($pages) ? end($pages) . " - " : "")) . $config->title) ?></title>
 		<link href="<?= $base ?? "./" ?>css/bootstrap.min.css" rel="stylesheet">
 		<link href="<?= $base ?? "./" ?>css/custom.css" rel="stylesheet">
-		<link rel="canonical" href="<?= htmlentities($config->baseurl . $url) ?>">
+		<link rel="canonical" href="<?= htmlentities($realurl = includeToSitemap($config->baseurl . ($url ?? ""))) ?>">
 		<base target="<?= $target ?? "_self"?>">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 		<script src="<?= $base ?? "./" ?>js/bootstrap.min.js"></script>
 		<!--[if lt IE 9]> <script src=https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js></script><![endif]-->
 		<meta name="author" content="Fernando van Loenhout">
-		<meta property="og:url" content="<?= htmlentities($config->baseurl . $url) ?>">
+		<meta property="og:url" content="<?= htmlentities($realurl) ?>">
 		<?PHP if(!empty($image)) : ?>
 			<meta property="og:image" content="<?= htmlentities($image) ?>">
 		<?PHP endif; ?>
