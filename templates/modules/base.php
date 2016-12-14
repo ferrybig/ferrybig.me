@@ -4,15 +4,23 @@
 		<meta charset="utf-8"> 
 		<meta content="IE=edge" http-equiv="X-UA-Compatible"> 
 		<meta content="width=device-width,initial-scale=1" name="viewport"> 
-		<title><?= $title ?? $config->title ?></title>
+		<title><?= htmlentities($real_title = (isset($title) ? $title . " - " : (isset($pages) ? end($pages) . " - " : "")) . $config->title) ?></title>
 		<link href="<?= $base ?? "./" ?>css/bootstrap.min.css" rel="stylesheet">
-		<!--<link href="<?= $base ?? "./" ?>css/bootstrap-theme.min.css" rel="stylesheet">-->
 		<link href="<?= $base ?? "./" ?>css/custom.css" rel="stylesheet">
-		<link rel="canonical" href="<?= $config->baseurl . $url ?>">
+		<link rel="canonical" href="<?= htmlentities($config->baseurl . $url) ?>">
 		<base target="<?= $target ?? "_self"?>">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 		<script src="<?= $base ?? "./" ?>js/bootstrap.min.js"></script>
 		<!--[if lt IE 9]> <script src=https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js></script><![endif]-->
+		<meta name="author" content="Fernando van Loenhout">
+		<meta property="og:url" content="<?= htmlentities($config->baseurl . $url) ?>">
+		<?PHP if(!empty($image)) : ?>
+			<meta property="og:image" content="<?= htmlentities($image) ?>">
+		<?PHP endif; ?>
+		<?PHP if(!empty($updated_at)) : ?>
+			<meta property="og:updated_time" content="<?= htmlentities($updated_at) ?>">
+		<?PHP endif; ?>
+		<meta property="og:title" content="<?= htmlentities($real_title) ?>">
 	</head>
 	<?PHP if(!isset($no_container)) : ?>
 		<body class="main_body">

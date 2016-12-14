@@ -2,6 +2,7 @@
 	"url" => "projects/$project->slug.html",
 	"page" => "projects",
 	"base" => "../",
+	"image" => $project->icons[0]->big ?? "",
 	"pages" => [["", "Home"], ["projects/", "Projects"], $project->nice_name ?? $project->name]
 ]); ?>
 <?PHP $base = "../"; ?>
