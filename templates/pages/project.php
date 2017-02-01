@@ -2,14 +2,15 @@
 	"url" => "projects/$project->slug.html",
 	"page" => "projects",
 	"base" => "../",
-	"pages" => [["", "Home"], ["projects/", "Projects"], $project->nice_name ?? $project->name]
+	"image" => $project->icons[0]->big ?? "",
+	"pages" => [["projects/", "Projects"], $project->nice_name ?? $project->name]
 ]); ?>
 <?PHP $base = "../"; ?>
 <div class="row">
 	<div class="col-md-8">
 		<div class="panel panel-default project project-full-page">
 			<div class="panel-heading">
-				<h2 class="panel-title panel-title-lg"><?= htmlentities($project->nice_name ?? $project->name) ?></h2>
+				<h2 class="panel-title panel-title-lg" property="http://purl.org/dc/terms/title"><?= htmlentities($project->nice_name ?? $project->name) ?></h2>
 			</div>
 			<div class="panel-body">
 				<?PHP if(isset($project->language)): ?>
@@ -39,6 +40,13 @@
 						</a>
 					</p>
 				<?PHP endif; ?>
+				<?PHP if($project->homepage): ?>
+					<p>
+						<a href="../<?= htmlentities($project->homepage) ?>" class="btn btn-sm btn-primary">
+							View project
+						</a>
+					</p>
+				<?PHP endif; ?>
 				<p class="project-time">
 					<?PHP if($project->updated_at): ?>
 						<small>
@@ -48,7 +56,7 @@
 						</small>
 					<?PHP endif; ?>
 					<small>
-						<time datetime="<?= htmlentities($project->created_at) ?>">
+						<time datetime="<?= htmlentities($project->created_at) ?>" property="http://purl.org/dc/terms/created">
 							Created at: <?= htmlentities(gmdate('Y-m-d H:i:s', strtotime($project->created_at))) ?>
 						</time>
 					</small>

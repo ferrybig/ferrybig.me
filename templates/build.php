@@ -17,7 +17,8 @@ curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($curl, CURLOPT_HEADER, 1);
 curl_setopt($curl, CURLOPT_FILETIME, true);
 // Used for github rate limiting
-curl_setopt($curl, CURLOPT_USERPWD, "$config->username:$config->password");
+if(isset($config->username))
+	curl_setopt($curl, CURLOPT_USERPWD, "$config->username:$config->password");
 
 define("EXPIRE_HOUR", 60 * 60);
 define("EXPIRE_DAY", 24 * 60 * 60);
@@ -59,10 +60,20 @@ foreach ($pos_args as $action) {
 			includeToFile("pages/projects_frame.php", "output/site/projects_frame.html", ["projects" => $projects]);
 			includeToFile("pages/projects_index.php", "output/site/projects/index.html", ["projects" => $projects]);
 			
+			fwrite(STDERR, "Checking out dynamic projects...\n");
+			foreach($projects as $project) {
+				tryCheckout($project);
+			}
+			
 			fwrite(STDERR, "Generate dynamic pages...\n");
 			foreach($projects as $project) {
 				includeToFile("pages/project.php", "output/site/projects/$project->slug.html", ["project" => $project, "projects" => $projects]);
 			}
+
+			fwrite(STDERR, "Generating sitemaps...\n");
+			includeToFile("pages/sitemap.php", "output/site/sitemap.xml", ["sitemap" => getSiteMap(), "type" => "xml"]);
+			includeToFile("pages/sitemap.php", "output/site/sitemap.txt", ["sitemap" => getSiteMap(), "type" => "txt"]);
+
 			break;
 		case "projects":
 			//TODO: Change this number in the future... (or use proper paging system...)

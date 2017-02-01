@@ -1,7 +1,11 @@
-<?= extend(__DIR__ . "/../modules/base.php", ['url' => "about.html", "page" => "about"]); ?>
+<?= extend(__DIR__ . "/../modules/base.php", [
+	'url' => "about.html", 
+	"page" => "about",
+	"pages" => ["About me"],
+]); ?>
 <div class="row">
 	<div class="col-md-8">
-		<div class="panel panel-default">
+		<div class="panel panel-default" typeof="http://xmlns.com/foaf/0.1/Person">
 			<div class="panel-heading">
 				<h2 class="panel-title panel-title-lg">About me</h2>
 			</div>
@@ -9,11 +13,12 @@
 				<div class="row">
 					<div class="col-md-8">
 						<p>
-							Hello, I'm Fernando&nbsp;van&nbsp;Loenhout, and
-							I'm a backend developer. I like to program using
-							object oriented languages, like Java. When I
-							program, I try to keep my code clear and 
-							structured, for easier changes when I revisit
+							Hello, I'm
+							<span property="name">Fernando&nbsp;van&nbsp;Loenhout</span>
+							, and I'm a backend developer. I like to program 
+							using object oriented languages, like Java. When I
+							program, I try to keep my code clear and structured, 
+							for easier changes when I revisit
 							the projects.
 						</p>
 						<table class="table table-condensed">

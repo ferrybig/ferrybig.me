@@ -1,9 +1,13 @@
-<?= extend(__DIR__ . "/../modules/base.php", ['url' => "contact.html", "page" => "contact"]); ?>
+<?= extend(__DIR__ . "/../modules/base.php", [
+	'url' => "contact.html", 
+	"page" => "contact",
+	"pages" => ["Contact"],
+]); ?>
 <div class="row">
 	<div class="col-md-8">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h2 class="panel-title panel-title-lg">Contacts</h2>
+				<h2 class="panel-title panel-title-lg" property="http://purl.org/dc/terms/title">Contact</h2>
 			</div>
 			<div class="panel-body">
 				<p>

@@ -59,7 +59,7 @@ function loadUrlJson($url, $expireTime = EXPIRE_WEEK, $accept = "application/vnd
 	}
 	$json = new stdClass();
 	$json->payload = $raw ? $body : json_decode($body);
-	$json->expires = time() + max($expireTime, isset($header_arr["x-poll-interval"]) ? $header_arr["x-poll-interval"] : 0);
+	$json->expires = time() + max($expireTime, isset($header_arr["x-poll-interval"]) ? $header_arr["x-poll-interval"] : 0) + random_int (-10,10);
 	$json->url = $url;
 	if (isset($header_arr["etag"])) {
 		$json->etag = $header_arr["etag"];
@@ -127,8 +127,7 @@ function filter_git_events(Array $events) {
 }
 
 function copy_dir($src, $dst) {
-	exec("rsync -a " .  escapeshellarg($src) . " " . escapeshellarg($dst), $output, $rtn);
-	fwrite(STDERR, implode("\n", $output));
+	passthru("rsync -a " .  escapeshellarg($src) . " " . escapeshellarg($dst), $rtn);
 	if($rtn != 0) // bad exit status
 		recurse_copy($src, $dst);
 }
@@ -146,6 +145,23 @@ function recurse_copy($src, $dst) {
 		}
 	}
 	closedir($dir);
+}
+
+function rrmdir($src) {
+    $dir = opendir($src);
+    while(false !== ( $file = readdir($dir)) ) {
+        if (( $file != '.' ) && ( $file != '..' )) {
+            $full = $src . '/' . $file;
+            if ( is_dir($full) ) {
+                rrmdir($full);
+            }
+            else {
+                unlink($full);
+            }
+        }
+    }
+    closedir($dir);
+    rmdir($src);
 }
 
 $extend_depth = 0;
@@ -178,21 +194,47 @@ function includeToFile($php, $to, Array $vars = []) {
 	$file = fopen($to, "w");
 	fwrite(STDERR, "Writing $php to $to\n");
 	ob_start();
+	$data_format = "html";
+	$vars["data_format"] = &$data_format;
 	include_advanced($php, $vars);
 	$data = ob_get_clean();
 	if($EXPAND) {
 		$data = $EXPAND["start"] . $data . $EXPAND["end"];
 	}
 	$EXPAND = false;
-	$data = preg_replace('~(\s)+~', '\1', $data);
-	$data = preg_replace('~>\s<~', '><', $data);
+	if($data_format == "html") {
+		$data = preg_replace('~(\s)+~', ' ', $data);
+		$data = preg_replace('~>\s<~', '><', $data);
+		$splitted = preg_split('~(<(?:/|!|)(?:[a-zA-Z0-9-]*))~', $data, -1, PREG_SPLIT_DELIM_CAPTURE);
+		$data = "";
+		$size = count($splitted);
+		$line = 0;
+		for($i = 0; $i < $size; $i += 2) {
+			$force = false;
+			$tag = "";
+			if($i + 1 < $size) {
+				$tag = $splitted[$i + 1];
+			}
+			$newlength = strlen($splitted[$i]) + strlen($tag);
+			if($line != 0 && ($line + $newlength > 120 || $force)) {
+				$data .= "\n";
+				$splitted[$i] = ltrim($splitted[$i]);
+				$line = 0;
+			}
+			$data .= $splitted[$i];
+			$data .= $tag;
+			$line += $newlength;
+		}
+		$data = preg_replace('~(<!doctype [a-z0-9]*>)~i', "\\0\n", $data, 1);
+		$data .= "\n";
+	}
 	fwrite($file, $data);
 	fclose($file);
 }
 
 function include_advanced($php, Array $vars = []) {
 	global $config;
-	extract($vars);
+	extract($vars, EXTR_REFS);
 	include $php;
 }
 
@@ -276,4 +318,69 @@ function compare_project_sort_callback($base) {
 	return function($a, $b) use ($base) {
 		return compare_projects($base, $a) <=> compare_projects($base, $b);
 	};
+}
+function tryCheckout(stdClass $project) {
+	if (!isset($project->checkout) || !isset($project->clone_url) || !isset($project->pushed_at) || !isset($project->slug))
+		return;
+	is_dir ("output/checkout") || mkdir("output/checkout");
+	$resultingPath = "output/checkout/" . $project->slug;
+	$requiresClone = true;
+	$hasupdated = false;
+	if (is_dir($resultingPath)) {
+		if (str_replace("+00:00", "Z", date(DATE_ATOM, filemtime($resultingPath))) > $project->pushed_at) {
+			echo "No update needed for $project->slug!\n";
+			$requiresClone = false;
+		} else {
+			$exitcode;
+			passthru ("git -C " . escapeshellarg($resultingPath) . " pull", $exitcode);
+			if($exitcode) {
+				echo "Error updating $project->slug!\n";
+				rrmdir($resultingPath);
+			} else {
+				$requiresClone = false;
+				$hasupdated = true;
+			}
+		}
+	}
+	if ($requiresClone) {
+		echo "Cloning $project->slug!\n";
+		$exitcode;
+		passthru ("git clone " . escapeshellarg($project->clone_url) . " " . escapeshellarg($resultingPath), $exitcode);
+		if ($exitcode) {
+			trigger_error("Problem cloning $project->slug!", E_USER_WARNING);
+		} else {
+			$requiresClone = false;
+			$hasupdated = true;
+		}
+	}
+	if (!$requiresClone) {
+		if (!empty($project->checkout_script)) {
+			passthru ($project->checkout_script);
+		}
+		if ($hasupdated) {
+			touch($resultingPath);
+			$src = realpath(realpath($resultingPath) . "/" . ($project->checkout_subdir ?? "")) . "/";
+			if(!is_dir($src)) {
+				trigger_error("Problem moving $src (Not a valid directory)", E_USER_WARNING);
+				return;
+			}
+			$dst = "output/site/projects/$project->checkout";
+			if(!is_dir($dst)) 
+				mkdir($dst);
+			copy_dir($src, $dst);
+		}
+		$project->homepage = "projects/" . str_replace("+", "%20", urlencode($project->checkout));
+	}
+}
+
+$sitemap = [];
+
+function includeToSitemap($url) {
+	global $sitemap;
+	$sitemap[] = $url;
+	return $url;
+}
+function getSiteMap() {
+	global $sitemap;
+	return $sitemap;
 }

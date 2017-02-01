@@ -20,10 +20,6 @@
 									<?= htmlentities($language) ?>
 								</span>
 							<?PHP endforeach; ?>
-						<?PHP else: ?>
-							<span class="label language-tag language-tag-<?= htmlentities(strtolower($project->language)) ?>">
-								<?= htmlentities($project->language) ?>
-							</span>
 						<?PHP endif; ?>
 					</small>
 				</p>
