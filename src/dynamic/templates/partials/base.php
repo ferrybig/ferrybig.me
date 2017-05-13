@@ -5,24 +5,23 @@
 		<meta content="IE=edge" http-equiv="X-UA-Compatible"> 
 		<meta content="width=device-width,initial-scale=1" name="viewport"> 
 		<title><?= htmlentities($real_title = (isset($title) ? $title . " - " : (isset($pages) ? end($pages) . " - " : "")) . $config->title) ?></title>
-		<link href="<?= $base ?? "./" ?>css/bootstrap.min.css" rel="stylesheet">
-		<link href="<?= $base ?? "./" ?>css/custom.css" rel="stylesheet">
+		<link href="<?= $base ?? "./" ?>css/main.css" rel="stylesheet">
 		<link rel="canonical" href="<?= htmlentities($realurl = includeToSitemap($config->baseurl . ($url ?? ""))) ?>">
-		<base target="<?= $target ?? "_self"?>">
+		<base target="<?= $target ?? "_self" ?>">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-		<script src="<?= $base ?? "./" ?>js/bootstrap.min.js"></script>
+		<script src="<?= $base ?? "./" ?>js/main.js"></script>
 		<!--[if lt IE 9]> <script src=https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js></script><![endif]-->
 		<meta name="author" content="Fernando van Loenhout">
 		<meta property="og:url" content="<?= htmlentities($realurl) ?>">
-		<?PHP if(!empty($image)) : ?>
+		<?PHP if (!empty($image)) : ?>
 			<meta property="og:image" content="<?= htmlentities($image) ?>">
 		<?PHP endif; ?>
-		<?PHP if(!empty($updated_at)) : ?>
+		<?PHP if (!empty($updated_at)) : ?>
 			<meta property="og:updated_time" content="<?= htmlentities($updated_at) ?>">
 		<?PHP endif; ?>
 		<meta property="og:title" content="<?= htmlentities($real_title) ?>">
 	</head>
-	<?PHP if(!isset($no_container)) : ?>
+	<?PHP if (!isset($no_container)) : ?>
 		<body class="main_body">
 			<div class="page-top-wrapper hidden-print">
 				<nav class="navbar navbar-default">
@@ -42,7 +41,7 @@
 							</button>
 							<a class="navbar-brand visible-xs-block" href="#">Ferrybig.me</a>
 						</div>
-	
+
 						<!-- Collect the nav links, forms, and other content for toggling -->
 						<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 							<ul class="nav navbar-nav nav-tabs">
@@ -56,10 +55,10 @@
 				</nav>
 			</div>
 			<div class="container">
-				<?PHP if(isset($pages)) : ?>
+				<?PHP if (isset($pages)) : ?>
 					<ol class="breadcrumb">
-						<?PHP foreach($pages as $breadcrumb) : ?>
-							<?PHP if(is_array($breadcrumb)) : ?>
+						<?PHP foreach ($pages as $breadcrumb) : ?>
+							<?PHP if (is_array($breadcrumb)) : ?>
 								<li><a href="<?= htmlentities(($base ?? "") . $breadcrumb[0]) ?>"><?= htmlentities($breadcrumb[1]) ?></a></li>
 							<?PHP else: ?>
 								<li class="active"><?= htmlentities($breadcrumb) ?></li>

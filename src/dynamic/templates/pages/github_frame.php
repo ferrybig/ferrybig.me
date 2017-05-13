@@ -1,6 +1,6 @@
-<?= extend(__DIR__ . "/../modules/base.php", ["url" => "github_frame.html", "page" => null, "no_container" => true, "target" => "_parent"]); ?>
+<?= extend(__DIR__ . "/../partials/base.php", ["url" => "github_frame.html", "page" => null, "no_container" => true, "target" => "_parent"]); ?>
 <ol class="commit-list media-list">
-	<?PHP foreach (filter_git_events(loadUrlJson("https://api.github.com/users/ferrybig/events?per_page=10", EXPIRE_HOUR)) as $event): ?>
+	<?PHP foreach (filter_git_events(loadUrlJson("https://api.github.com/users/ferrybig/events/public?per_page=15", EXPIRE_HOUR)) as $event): ?>
 		<li class="commit">
 			<div>
 				<h3 class="commit-name">
@@ -27,7 +27,7 @@
 							<?PHP $commitObj = loadUrlJson($commit->url); ?>
 							<li>
 								<small class="pull-right commit-stats">
-									<?PHP if(count($commitObj->parents) > 1): ?>
+									<?PHP if (count($commitObj->parents) > 1): ?>
 										<span class="label label-info" title="Merge commit">
 											<span class="glyphicon glyphicon-resize-small"></span>
 										</span>

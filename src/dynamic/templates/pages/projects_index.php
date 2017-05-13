@@ -1,9 +1,11 @@
-<?= extend(__DIR__ . "/../modules/base.php", [
-	'url' => "projects/", 
-	"page" => "projects", 
+<?=
+extend(__DIR__ . "/../partials/base.php", [
+	'url' => "projects/",
+	"page" => "projects",
 	"base" => "../",
 	"pages" => [["", "Home"], "Projects"],
-]); ?>
+]);
+?>
 <?PHP $base = "../"; ?>
 <div class="row">
 	<div class="col-md-8">
@@ -13,9 +15,13 @@
 			</div>
 			<div class="panel-body">
 				<ul class="project-list media-list">
-					<?PHP usort($projects, function($a, $b) { return strnatcasecmp($a->nice_name, $b->nice_name);}); ?>
+					<?PHP
+					usort($projects, function($a, $b) {
+						return strnatcasecmp($a->nice_name, $b->nice_name);
+					});
+					?>
 					<?PHP foreach ($projects as $project): ?>
-						<?PHP if(isset($project->hidden) && $project->hidden) continue; ?>
+						<?PHP if (isset($project->hidden) && $project->hidden) continue; ?>
 						<li class="project media">
 							<?PHP if (isset($project->icons)): ?>
 								<div class="media-left">
@@ -71,10 +77,10 @@
 	<aside class="col-md-4 hidden-print">
 		<div class="row">
 			<div class="col-sm-6 col-md-12">
-				<?PHP include __DIR__ . "/../modules/projects.php" ?>
+				<?PHP include __DIR__ . "/../partials/projects.php" ?>
 			</div>
 			<div class="col-sm-6 col-md-12">
-				<?PHP include __DIR__ . "/../modules/github.php" ?>
+				<?PHP include __DIR__ . "/../partials/github.php" ?>
 			</div>
 		</div>
 	</aside>

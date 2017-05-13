@@ -1,6 +1,9 @@
-/output
 *~
-
+/output
 /nbproject/private
-/templates/config/projects.json
-/templates/config/config.json
+/config/projects.json
+/config/config.json
+/node_modules
+/.sass-cache
+/cache/
+/public/

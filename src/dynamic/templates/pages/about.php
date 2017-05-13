@@ -1,8 +1,10 @@
-<?= extend(__DIR__ . "/../modules/base.php", [
-	'url' => "about.html", 
+<?=
+extend(__DIR__ . "/../partials/base.php", [
+	'url' => "about.html",
 	"page" => "about",
 	"pages" => ["About me"],
-]); ?>
+]);
+?>
 <div class="row">
 	<div class="col-md-8">
 		<div class="panel panel-default" typeof="http://xmlns.com/foaf/0.1/Person">
@@ -144,10 +146,10 @@
 	<aside class="col-md-4 hidden-print">
 		<div class="row">
 			<div class="col-sm-6 col-md-12">
-				<?PHP include __DIR__ . "/../modules/projects.php" ?>
+				<?PHP include __DIR__ . "/../partials/projects.php" ?>
 			</div>
 			<div class="col-sm-6 col-md-12">
-				<?PHP include __DIR__ . "/../modules/github.php" ?>
+				<?PHP include __DIR__ . "/../partials/github.php" ?>
 			</div>
 		</div>
 	</aside>
