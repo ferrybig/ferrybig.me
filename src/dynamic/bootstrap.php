@@ -3,8 +3,8 @@
 if (file_exists(__DIR__ . "/../../config/config.json")) {
 	$config = json_decode(file_get_contents(__DIR__ . "/../../config/config.json"));
 } else if (file_exists(__DIR__ . "/../../templates/config/config.json")) {
-	mv(__DIR__ . "/../../templates/config/config.json", __DIR__ . "/../../config/config.json");
-	mv(__DIR__ . "/../../templates/config/projects.json", __DIR__ . "/../../config/projects.json");
+	rename(__DIR__ . "/../../templates/config/config.json", __DIR__ . "/../../config/config.json");
+	rename(__DIR__ . "/../../templates/config/projects.json", __DIR__ . "/../../config/projects.json");
 	$config = json_decode(file_get_contents(__DIR__ . "/../../config/config.json"));
 } else {
 	fwrite(STDERR, "Fatal, `config.json` not found in config/!\n");
