@@ -44,7 +44,7 @@ extend(__DIR__ . "/../partials/base.php", [
 				<?PHP endif; ?>
 				<?PHP if ($project->homepage): ?>
 					<p>
-						<a href="../<?= htmlentities($project->homepage) ?>" class="btn btn-sm btn-primary">
+						<a href="<?= htmlentities($project->homepage) ?>" class="btn btn-sm btn-primary">
 							View project
 						</a>
 					</p>
